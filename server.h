@@ -31,10 +31,6 @@ public:
 
     }
 
-    void send_update() {
-
-    }
-
     void send_data(Message* m, IP_Port_Tuple* ipNport) {
 
     }

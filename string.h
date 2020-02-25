@@ -82,4 +82,11 @@ public:
             hash = cstr_[i] + (hash << 6) + (hash << 16) - hash;
         return hash;
     }
+
+    /**
+     * Returns the concatenation of this
+     */
+    String* concat(String* s) {
+        return new String(strcat(this->c_str(), s->c_str()));
+    }
  };

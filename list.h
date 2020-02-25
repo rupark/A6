@@ -21,21 +21,21 @@
 // Design: StrList starts at size 0
 // Design capacity starts at 0
 // Design size means how many actual filled elements
-class IPList : public Object {
+class StrList : public Object {
     public:
         size_t size_;
-        IP_Port_Tuple** arr_;
+        String** arr_;
         size_t hash_;
         size_t capacity_; // amount of memory allocated
 
-        IPList () {
+        StrList () {
             size_ = 0;
             capacity_ = 2;
-            arr_ = new IP_Port_Tuple*[capacity_];
+            arr_ = new String*[capacity_];
             hash_ = hash_me();
         }
 
-        ~IPList() {
+        ~StrList() {
             for (int i = 0; i < capacity_; i++) {
                 delete arr_[i];
             }
@@ -48,12 +48,12 @@ class IPList : public Object {
         }
 
         // Returns the element at index
-        IP_Port_Tuple*  get(size_t index) {
+        String*  get(size_t index) {
             if (index >= 0 && index < size_) {
                 if (arr_[index] == nullptr) {
                     exit(-1); // null pointer at spot
                 } else {
-                    return dynamic_cast<IP_Port_Tuple*>(arr_[index]); // needs to return pointer to the IP_Port_Tuple
+                    return dynamic_cast<String*>(arr_[index]); // needs to return pointer to the String
                 }
             } else {
                 exit(-1); // error if index requested is not in the range of the list
@@ -63,11 +63,11 @@ class IPList : public Object {
         // Removes all of elements from this list
         void clear() {
             size_ = 0;
-            arr_ = new IP_Port_Tuple*[size_];
+            arr_ = new String*[size_];
         }
 
         // Inserts all of elements in c into this list at i
-        void add_all(size_t i, IPList* c) {
+        void add_all(size_t i, StrList* c) {
             for (size_t j = 0; j < c->size(); j++) {
                 add(i+j,c->get(j));
             }
@@ -78,11 +78,11 @@ class IPList : public Object {
             if (o == nullptr) {
              return false;
             }
-            IPList* other = dynamic_cast<IPList*>(o);
+            StrList* other = dynamic_cast<StrList*>(o);
             if (other == nullptr) {
                 return false;
             }
-            // other is IPList from this point
+            // other is StrList from this point
             // check sizes
             if (other->size() != size_) {
                 return false;
@@ -102,7 +102,7 @@ class IPList : public Object {
             if (o == nullptr) {
                 return -1;
             }
-            IP_Port_Tuple* other = dynamic_cast<IP_Port_Tuple*>(o);
+            String* other = dynamic_cast<String*>(o);
             if (other == nullptr) {
                 return -1;
             }
@@ -116,11 +116,11 @@ class IPList : public Object {
         }
 
         // Replaces the element at i with e
-        IP_Port_Tuple* set(size_t i, IP_Port_Tuple* e) {
+        String* set(size_t i, String* e) {
             if (i < 0 || i >= size_) {
                 exit(-1); // out of bounds
             }
-            IP_Port_Tuple* returnVal = arr_[i];
+            String* returnVal = arr_[i];
             arr_[i] = e;
             return returnVal;
         }
@@ -129,7 +129,7 @@ class IPList : public Object {
         void grow() {
             capacity_ *= 2;
             // create new temp array
-            IP_Port_Tuple** arr_temp = new IP_Port_Tuple*[capacity_];
+            String** arr_temp = new String*[capacity_];
             // fill temp array
             for (int i = 0; i < size_; i++) {
                 arr_temp[i] = arr_[i];
@@ -147,7 +147,7 @@ class IPList : public Object {
 
         // ONLY THESE METHODS CAN AFFECT SIZE OF ARR_
         // Appends e to end
-        void push_back(IP_Port_Tuple* e) {
+        void push_back(String* e) {
             // check if there is free space in arr_
             // if size is less than capacity there is at least one open spot
             if (size_ < capacity_) {
@@ -164,7 +164,7 @@ class IPList : public Object {
         }
 
         // Inserts e at i
-        void add(size_t i, IP_Port_Tuple* e) {
+        void add(size_t i, String* e) {
 
 
             // check if theres space
@@ -174,7 +174,7 @@ class IPList : public Object {
                 print_list();
             }
 
-            IP_Port_Tuple** temp = new IP_Port_Tuple*[capacity_];
+            String** temp = new String*[capacity_];
 
             // check index
             if (i >= 0 && i < size_) {
@@ -203,12 +203,12 @@ class IPList : public Object {
         }
 
         // Removes the element at i
-        IP_Port_Tuple* remove(size_t i) {
-            IP_Port_Tuple* returnVal = nullptr;
-            IP_Port_Tuple** temp = new IP_Port_Tuple*[capacity_];
+        String* remove(size_t i) {
+            String* returnVal = nullptr;
+            String** temp = new String*[capacity_];
             // check index
             if (i >= 0 && i < size_) {
-                returnVal = dynamic_cast<IP_Port_Tuple*>(arr_[i]); // needs to return a pointer
+                returnVal = dynamic_cast<String*>(arr_[i]); // needs to return a pointer
 
                 // shift array left
                 size_t newPos;

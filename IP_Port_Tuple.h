@@ -1,22 +1,21 @@
 class IP_Port_Tuple {
 public:
     // server
-    String* port;
+    int port;
     String* ip_address;
 
     // Cannot be a network without Registration Server.
-    IP_Port_Tuple(String* port, String* ip_address) {
+    IP_Port_Tuple(String* ip_address, int port) {
         this->port = port;
         this->ip_address = ip_address;
     }
 
     ~IP_Port_Tuple() {
-        delete port;
         delete ip_address;
     }
 
-    String* getPort() {
-        if (port != nullptr) {
+    int getPort() {
+        if (port != 0) {
             return this->port;
         } else {
             exit(1);
