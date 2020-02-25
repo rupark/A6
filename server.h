@@ -1,28 +1,52 @@
 //
 // Created by kramt on 2/21/2020.
 //
+#include "list.h"
+#include "node.h"
+#include "serialize.h"
+#include "IP_Port_Tuple.h"
+#include "string.h"
 
 class Server {
+public:
 
     // Know its own ip address (master)
+    String* ip_addr;
+
     // know all the other ip address of clients
+    // array list of nodes
+    IPList* ip_list;
 
-    // send update clients of update address table returns true if updated addresses sent
-    virtual bool send_update();
+    Server(String* ip_addr) {
+        this->ip_addr = ip_addr;
+        ip_list = new IPList();
+    }
 
-    // receive update from new client's to add to address table returns true if update received
-    virtual bool recv_update();
+    ~Server() {
+        delete nodes;
+        delete ip_addr;
+    }
 
-    // receive data
-    virtual Object* recv_data();
+    void handle_packet(Message* m) {
 
-    // send data to specific address returns true if data sent
-    virtual bool send_data(String* ip_addr, Object* data);
+    }
+
+    void send_update() {
+
+    }
+
+    void send_data(Message* m, IP_Port_Tuple* ipNport) {
+
+    }
 
     // returns master address (this address)
-    virtual String* get_master_addr();
+    virtual String* get_master_addr() {
+        return this->ip_addr;
+    }
 
     // returns all the addresses of the clients saved in the address table
-    virtual Object** dump_table();
+    virtual IPList* dump_table() {
+        return this->ip_list;
+    }
 
 };

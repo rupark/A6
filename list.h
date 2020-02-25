@@ -9,6 +9,8 @@
 
 #pragma once
 
+#include "IP_Port_Tuple.h"
+#include "object.h"
 #include "string.h"
 
 // Size must be positive
@@ -19,21 +21,21 @@
 // Design: StrList starts at size 0
 // Design capacity starts at 0
 // Design size means how many actual filled elements
-class StrList : public Object {
+class IPList : public Object {
     public:
         size_t size_;
-        String** arr_;
+        IP_Port_Tuple** arr_;
         size_t hash_;
         size_t capacity_; // amount of memory allocated
 
-        StrList () {
+        IPList () {
             size_ = 0;
             capacity_ = 2;
-            arr_ = new String*[capacity_];
+            arr_ = new IP_Port_Tuple*[capacity_];
             hash_ = hash_me();
         }
 
-        ~StrList() {
+        ~IPList() {
             for (int i = 0; i < capacity_; i++) {
                 delete arr_[i];
             }
@@ -46,12 +48,12 @@ class StrList : public Object {
         }
 
         // Returns the element at index
-        String*  get(size_t index) {
+        IP_Port_Tuple*  get(size_t index) {
             if (index >= 0 && index < size_) {
                 if (arr_[index] == nullptr) {
                     exit(-1); // null pointer at spot
                 } else {
-                    return dynamic_cast<String*>(arr_[index]); // needs to return pointer to the String
+                    return dynamic_cast<IP_Port_Tuple*>(arr_[index]); // needs to return pointer to the IP_Port_Tuple
                 }
             } else {
                 exit(-1); // error if index requested is not in the range of the list
@@ -61,23 +63,11 @@ class StrList : public Object {
         // Removes all of elements from this list
         void clear() {
             size_ = 0;
-            arr_ = new String*[size_];
-        }
-
-        // Returns the hash code value for this list.
-        size_t hash() {
-            size_t hash_calc = 0;
-            for (size_t i = 0; i < size_; i++) {
-                hash_calc = hash_calc + arr_[i]->get_hash();
-            }
-//            if (hash_ == 0) {
-//                hash_ = hash_me(); // use Object class to calculate hash
-//            }
-            return hash_calc;
+            arr_ = new IP_Port_Tuple*[size_];
         }
 
         // Inserts all of elements in c into this list at i
-        void add_all(size_t i, StrList* c) {
+        void add_all(size_t i, IPList* c) {
             for (size_t j = 0; j < c->size(); j++) {
                 add(i+j,c->get(j));
             }
@@ -88,11 +78,11 @@ class StrList : public Object {
             if (o == nullptr) {
              return false;
             }
-            StrList* other = dynamic_cast<StrList*>(o);
+            IPList* other = dynamic_cast<IPList*>(o);
             if (other == nullptr) {
                 return false;
             }
-            // other is StrList from this point
+            // other is IPList from this point
             // check sizes
             if (other->size() != size_) {
                 return false;
@@ -112,7 +102,7 @@ class StrList : public Object {
             if (o == nullptr) {
                 return -1;
             }
-            String* other = dynamic_cast<String*>(o);
+            IP_Port_Tuple* other = dynamic_cast<IP_Port_Tuple*>(o);
             if (other == nullptr) {
                 return -1;
             }
@@ -126,11 +116,11 @@ class StrList : public Object {
         }
 
         // Replaces the element at i with e
-        String* set(size_t i, String* e) {
+        IP_Port_Tuple* set(size_t i, IP_Port_Tuple* e) {
             if (i < 0 || i >= size_) {
                 exit(-1); // out of bounds
             }
-            String* returnVal = arr_[i];
+            IP_Port_Tuple* returnVal = arr_[i];
             arr_[i] = e;
             return returnVal;
         }
@@ -139,7 +129,7 @@ class StrList : public Object {
         void grow() {
             capacity_ *= 2;
             // create new temp array
-            String** arr_temp = new String*[capacity_];
+            IP_Port_Tuple** arr_temp = new IP_Port_Tuple*[capacity_];
             // fill temp array
             for (int i = 0; i < size_; i++) {
                 arr_temp[i] = arr_[i];
@@ -157,7 +147,7 @@ class StrList : public Object {
 
         // ONLY THESE METHODS CAN AFFECT SIZE OF ARR_
         // Appends e to end
-        void push_back(String* e) {
+        void push_back(IP_Port_Tuple* e) {
             // check if there is free space in arr_
             // if size is less than capacity there is at least one open spot
             if (size_ < capacity_) {
@@ -174,7 +164,7 @@ class StrList : public Object {
         }
 
         // Inserts e at i
-        void add(size_t i, String* e) {
+        void add(size_t i, IP_Port_Tuple* e) {
 
 
             // check if theres space
@@ -184,7 +174,7 @@ class StrList : public Object {
                 print_list();
             }
 
-            String** temp = new String*[capacity_];
+            IP_Port_Tuple** temp = new IP_Port_Tuple*[capacity_];
 
             // check index
             if (i >= 0 && i < size_) {
@@ -213,12 +203,12 @@ class StrList : public Object {
         }
 
         // Removes the element at i
-        String* remove(size_t i) {
-            String* returnVal = nullptr;
-            String** temp = new String*[capacity_];
+        IP_Port_Tuple* remove(size_t i) {
+            IP_Port_Tuple* returnVal = nullptr;
+            IP_Port_Tuple** temp = new IP_Port_Tuple*[capacity_];
             // check index
             if (i >= 0 && i < size_) {
-                returnVal = dynamic_cast<String*>(arr_[i]); // needs to return a pointer
+                returnVal = dynamic_cast<IP_Port_Tuple*>(arr_[i]); // needs to return a pointer
 
                 // shift array left
                 size_t newPos;
@@ -249,17 +239,3 @@ class StrList : public Object {
 
 };
 
-class SortedStrList : public StrList {
-	public:
-        // adds the element in correctly sorted list spot
-        void sorted_add(String* e) {
-            for (int j=0; j < size_; j++) {
-                if (strcmp(e->val_, arr_[j]->val_) < 0) {
-                    std::cout << "Add - j: " << j << " e:" <<  e->val_ << endl;
-                    add(j, e);
-                    return;
-                }
-            }
-            push_back(e);
-        }
-};
