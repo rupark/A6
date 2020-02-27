@@ -58,20 +58,20 @@ public:
 
         printf("setsockopt\n");
         // Forcefully attaching socket to the port 8080
-//        if (setsockopt(sock_listen, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT,
-//                       &opt, sizeof(opt)))
-//        {
-//            perror("setsockopt");
-//            exit(EXIT_FAILURE);
-//        }
-
-        if (setsockopt(sock_listen, SOL_SOCKET, SO_REUSEADDR , &opt, sizeof(opt))) {
+        if (setsockopt(sock_listen, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT,
+                       &opt, sizeof(opt)))
+        {
             perror("setsockopt");
             exit(EXIT_FAILURE);
         }
 
+//        if (setsockopt(sock_listen, SOL_SOCKET, SO_REUSEADDR , &opt, sizeof(opt))) {
+//            perror("setsockopt");
+//            exit(EXIT_FAILURE);
+//        }
+
         address.sin_family = AF_INET;
-        assert(inet_pton(AF_INET,"127.0.0.3", &address.sin_addr) > 0);
+        assert(inet_pton(AF_INET,"127.0.0.5", &address.sin_addr) > 0);
         address.sin_port = htons(8080);
 
         printf("Binding server socket:");
