@@ -20,4 +20,4 @@ run:
 	./server && ./client
 
 clean:
-	rm a.out test.o *.h.gch
+	rm a.out test.o *.h.gch *.o
