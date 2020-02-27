@@ -40,8 +40,10 @@ public:
         ports[0] = this->server_port;
         this->nodes = 1;
 
-        this->sock_listen = init(this->ip_addr->cstr_, this->port);
+         // needs to be listening for connections
+         //this->sock_listen = init_server(this->ip_addr->cstr_, this->port);
 
+        this->sock_send = init_client();
         this->send_reg();
     }
 
@@ -80,7 +82,6 @@ public:
          // create socket
          if ((sock_send = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
              printf("\n Socket creation error \n");
-
          }
 
          // connect socket
@@ -95,6 +96,7 @@ public:
              our_sockaddr = create_sockaddr(ip, port);
          }
 
+         // bind?
 
          if (connect(sock_send, (struct sockaddr *)&our_sockaddr, sizeof(our_sockaddr)) < 0) {
              printf("\nConnection Failed \n");
@@ -139,10 +141,10 @@ public:
          return this->ip_addr;
      }
 
-     int init(const char* ip_address, int port) {
+     int init_client() {
 
          struct sockaddr_in server_addr;
-         char buffer[1024] = {0};
+         //char buffer[1024] = {0};
          printf("In client\n");
          printf("creating socket\n");
          int tmpSocket = 0;
@@ -151,10 +153,12 @@ public:
              printf("\n Socket creation error \n");
              return -1;
          }
+
          server_addr.sin_family = AF_INET;
-         server_addr.sin_port = htons(port);
+         server_addr.sin_port = htons(8080);
+
          // Convert IPv4 and IPv6 addresses from text to binary form
-         if(inet_pton(AF_INET, ip_address, &server_addr.sin_addr)<=0)
+         if(inet_pton(AF_INET, "127.0.0.5", &server_addr.sin_addr)<=0)
          {
              printf("\nInvalid address/ Address not supported");
              printf("%s", ip_addr);

@@ -7,6 +7,12 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+#include <string.h>
+
 #pragma once
 
 class Server {
@@ -71,10 +77,11 @@ public:
         printf("Binding server socket:");
         printf("%s\n", this->ip_addr->cstr_);
         // Forcefully attaching socket to the port 8080
-        if (::bind(sock_listen, (struct sockaddr *)&address, sizeof(address))<0)
+        if (bind(sock_listen, (struct sockaddr *)&address, sizeof(address))<0)
         {
+            printf("%s", "EXITING");
             exit(EXIT_FAILURE);
-
+            perror("binding");
         }
 
         printf("Listening\n");
@@ -204,7 +211,6 @@ public:
                 break;
         }
     }
-
 
     /**
      * Initializes a socket
