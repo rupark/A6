@@ -52,28 +52,29 @@ public:
 
         printf("setsockopt\n");
         // Forcefully attaching socket to the port 8080
-        if (setsockopt(sock_listen, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT,
-                       &opt, sizeof(opt)))
-        {
+//        if (setsockopt(sock_listen, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT,
+//                       &opt, sizeof(opt)))
+//        {
+//            perror("setsockopt");
+//            exit(EXIT_FAILURE);
+//        }
+
+        if (setsockopt(sock_listen, SOL_SOCKET, SO_REUSEADDR , &opt, sizeof(opt))) {
             perror("setsockopt");
             exit(EXIT_FAILURE);
         }
 
         address.sin_family = AF_INET;
-        assert(inet_pton(AF_INET, this->ip_addr->c_str(), &address.sin_addr) > 0);
-        address.sin_port = htons(this->port);
+        assert(inet_pton(AF_INET,"127.0.0.3", &address.sin_addr) > 0);
+        address.sin_port = htons(8080);
 
         printf("Binding server socket:");
-        printf("%s\n", this->ip_addr);
+        printf("%s\n", this->ip_addr->cstr_);
         // Forcefully attaching socket to the port 8080
         if (::bind(sock_listen, (struct sockaddr *)&address, sizeof(address))<0)
         {
-            // try again after closing server
-            close(sock_listen);
-            if (::bind(sock_listen, (struct sockaddr *)&address, sizeof(address))<0) {
-                perror("bind failed");
-                exit(EXIT_FAILURE);
-            }
+            exit(EXIT_FAILURE);
+
         }
 
         printf("Listening\n");
