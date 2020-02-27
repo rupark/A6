@@ -17,6 +17,7 @@ int main(int argc, char const *argv[])
     char buffer[1024] = {0};
     printf("In client\n");
     printf("creating socket\n");
+
     if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0)
     {
         printf("\n Socket creation error \n");

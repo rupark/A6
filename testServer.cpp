@@ -17,22 +17,22 @@ int main(int argc, char const *argv[])
 //    String** add = new String*[3];
 //    add[0] = new String("127.0.0.1");
 //
-//    cout << "Creating Server" << endl;
+    cout << "Creating Server" << endl;
     Server* s1 = new Server(new String("127.0.0.2"), 8080);
-//    cout << "Server Made" << endl;
+    cout << "Server Made" << endl;
 
-    cout << "Creating Node" << endl;
-    Node* n1 = new Node(new String("127.0.0.2"),8080, new String("127.0.0.1"), 8080);
-    cout << "Node Created" << endl;
-
-    // DUMPING TABLES
-    for (size_t j = 0; j < s1->nodes; j++) {
-        cout << "SERVER: ";
-        printf("%s\n",s1->addresses[j]->c_str());
-
-        cout << "NODE: ";
-        printf("%s\n",n1->addresses[j]->c_str());
-    }
+//    cout << "Creating Node" << endl;
+//    Node* n1 = new Node(new String("127.0.0.2"),8080, new String("127.0.0.1"), 8080);
+//    cout << "Node Created" << endl;
+//
+//    // DUMPING TABLES
+//    for (size_t j = 0; j < s1->nodes; j++) {
+//        cout << "SERVER: ";
+//        printf("%s\n",s1->addresses[j]->c_str());
+//
+//        cout << "NODE: ";
+//        printf("%s\n",n1->addresses[j]->c_str());
+//    }
 
 
 

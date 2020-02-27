@@ -9,7 +9,6 @@
 #include <string.h>
 #include <arpa/inet.h>
 #include <assert.h>
-#include <string.h>
 #define PORT 8080
 
 int main(int argc, char const *argv[])
@@ -65,6 +64,7 @@ int main(int argc, char const *argv[])
         perror("listen");
         exit(EXIT_FAILURE);
     }
+
     printf("Accepting\n");
     if ((new_socket = accept(server_fd, (struct sockaddr *)&address,
                              (socklen_t*)&addrlen))<0)

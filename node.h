@@ -1,18 +1,19 @@
 #include "serialize.h"
-#include "list.h"
+//#include "list.h"
 #include "string.h"
+#include <unistd.h>
+#include <stdio.h>
+#include <sys/socket.h>
+#include <stdlib.h>
+#include <netinet/in.h>
+#include <string.h>
+#include <arpa/inet.h>
+#include <assert.h>
+#pragma once
 
-public Node {
-    // know own address
-    // know HOST ADDRESS
-    // table of other known client addresses
-
-    // constructor creates socket...
-    // sends update to server of this address
+class Node {
 public:
-    //Directory stuff
-    //TODO put this in a directory?
-    //the first one is the server
+    //FIRST NODE IS THE SERVER
     size_t nodes;
     size_t * ports;  // owned
     String ** addresses;  // owned; strings owned
@@ -20,57 +21,116 @@ public:
     //Personal Stuff
     String* server_addr;
     String* ip_addr;
-    int port;
+    size_t port;
+    size_t server_port;
 
     int sock_listen;
-    int sock_send:
+    int sock_send;
 
-     Node(String* server_addr, String* ip_addr, int port) {
-        this.server_addr = server_addr;
-        this.ip_addr = ip_addr;
-        this.port = port;
-        this.neighbors = new IPList();
-        this.sock_listen = init(this->ip_addr->cstr_, this->port);
+     Node(String* server_addr, size_t server_port, String* ip_addr, size_t port) {
+        this->server_addr = server_addr;
+        this->server_port = server_port;
+
+        this->ip_addr = ip_addr;
+        this->port = port;
+
+        this->addresses = new String*[1000];
+        addresses[0] = this->server_addr;
+        this->ports = new size_t[1000];
+        ports[0] = this->server_port;
+        this->nodes = 1;
+
+        this->sock_listen = init(this->ip_addr->cstr_, this->port);
+
+        this->send_reg();
     }
 
     ~Node() {
         delete server_addr;
         delete ip_addr;
+        delete[] ports;
+        delete[] addresses;
+        close(sock_listen);
+        close(sock_send);
     }
 
     void send_reg() {
-        // TODO Create Message {REGISTER}
-        send_data(new Register(this.), new IP_Port_Tuple(server_addr, port))
+       send_data(*new Register(-1, 0, this->port, this->ip_addr));
     }
 
-     void send_data(Message m, IP_Port_Tuple* ipNport) {
-         sock_send = init(ipNport->getIP(), ipNport->getPort());
-         send(sock_send , m, sizeof(m) , 0 );
+    sockaddr_in create_sockaddr(String* ip_address, size_t port) {
+        struct sockaddr_in our_sockaddr;
+
+        our_sockaddr.sin_family = AF_INET;
+        our_sockaddr.sin_port = htons(port);
+
+        // Convert IPv4 and IPv6 addresses from text to binary form
+        if(inet_pton(AF_INET, ip_address->cstr_, &our_sockaddr.sin_addr)<=0)
+        {
+            printf("\nInvalid address/ Address not supported");
+            printf("%s", ip_address->cstr_);
+            printf("\n");
+        }
+
+        return our_sockaddr;
+     }
+
+     void send_data(Message m) {
+
+         // create socket
+         if ((sock_send = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
+             printf("\n Socket creation error \n");
+
+         }
+
+         // connect socket
+         struct sockaddr_in our_sockaddr;
+
+         // if message does not have a sockaddr, build one.
+         if (m.kind_ == MsgKind::Register) {
+             our_sockaddr = create_sockaddr(this->server_addr, this->server_port);
+         } else {
+             String *ip = addresses[m.target_];
+             size_t port = ports[m.target_];
+             our_sockaddr = create_sockaddr(ip, port);
+         }
+
+
+         if (connect(sock_send, (struct sockaddr *)&our_sockaddr, sizeof(our_sockaddr)) < 0) {
+             printf("\nConnection Failed \n");
+
+         }
+
+         // send data
+         String* serial = m.serialize();
+         send(sock_send , serial, sizeof(serial) , 0 );
+
+         // close socket
          close(sock_send);
+
+     }
+
+     void handle_directory(Directory* d) {
+         this->ports = d->ports;
+         this->addresses = d->addresses;
+         this->nodes = d->nodes;
      }
 
      // Receives type Message -- has MsgKind field
      void handle_packet(char* buffer) {
-         Register* r = dynamic_cast<Register>(m);
-         char* args = strtok(buffer, " ");
-        switch (args[0]) {
-            case "Register":
+        switch (buffer[0]) {
+            case 1:
                 //TODO error?
                 break;
-            case "Ack":
+            case 2:
                 //TODO
                 break;
-            case "Status":
-                //TODO
+            case 3:
+
                 break;
-            case "Directory":
-                size_t nodes = atoi(args[3]);
-                for (int i = 4; i < 4 + nodes; i++) {
-                    addresses[i - 4] == args[i];
-                }
-                for (int i = 4 + nodes; i < 4 + nodes + nodes; i++) {
-                    ports[i - (4 + nodes)] == args[i];
-                }
+            case 4: //Directory
+                Directory* d = new Directory(buffer);
+                handle_directory(d);
                 break;
         }
      }
@@ -91,17 +151,17 @@ public:
              printf("\n Socket creation error \n");
              return -1;
          }
-         serv_addr.sin_family = AF_INET;
-         serv_addr.sin_port = htons(port);
+         server_addr.sin_family = AF_INET;
+         server_addr.sin_port = htons(port);
          // Convert IPv4 and IPv6 addresses from text to binary form
-         if(inet_pton(AF_INET, ip_address, &serv_addr.sin_addr)<=0)
+         if(inet_pton(AF_INET, ip_address, &server_addr.sin_addr)<=0)
          {
              printf("\nInvalid address/ Address not supported");
              printf("%s", ip_addr);
              printf("\n");
              return -1;
          }
-         if (connect(tmpSocket, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0)
+         if (connect(tmpSocket, (struct sockaddr *)&server_addr, sizeof(server_addr)) < 0)
          {
              printf("\nConnection Failed \n");
              return -1;

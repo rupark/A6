@@ -1,9 +1,15 @@
 #pragma once
 // LANGUAGE: CwC
-#include <cstring>
-#include <string>
-#include <cassert>
+#include <unistd.h>
+#include <stdio.h>
+#include <sys/socket.h>
+#include <stdlib.h>
+#include <netinet/in.h>
+#include <string.h>
+#include <arpa/inet.h>
+#include <assert.h>
 #include "object.h"
+#pragma once
 
 /** An immutable string class that wraps a character array.
  * The character array is zero terminated. The size() of the
@@ -18,10 +24,10 @@ public:
 
     /** Build a string from a string constant */
     String(char const* cstr, size_t len) {
-       size_ = len;
-       cstr_ = new char[size_ + 1];
-       memcpy(cstr_, cstr, size_ + 1);
-       cstr_[size_] = 0; // terminate
+        size_ = len;
+        cstr_ = new char[size_ + 1];
+        memcpy(cstr_, cstr, size_ + 1);
+        cstr_[size_] = 0; // terminate
     }
     /** Builds a string from a char*, steal must be true, we do not copy!
      *  cstr must be allocated for len+1 and must be zero terminated. */
@@ -35,7 +41,7 @@ public:
 
     /** Build a string from another String */
     String(String & from):
-        Object(from) {
+            Object(from) {
         size_ = from.size_;
         cstr_ = new char[size_ + 1]; // ensure that we copy the terminator
         memcpy(cstr_, from.cstr_, size_ + 1);
@@ -43,19 +49,19 @@ public:
 
     /** Delete the string */
     ~String() { delete[] cstr_; }
-    
+
     /** Return the number characters in the string (does not count the terminator) */
     size_t size() { return size_; }
-    
+
     /** Return the raw char*. The result should not be modified or freed. */
     char* c_str() {  return cstr_; }
-    
+
     /** Returns the character at index */
     char at(size_t index) {
         assert(index < size_);
         return cstr_[index];
     }
-    
+
     /** Compare two strings. */
     bool equals(Object* other) {
         if (other == this) return true;
@@ -64,7 +70,7 @@ public:
         if (size_ != x->size_) return false;
         return strncmp(cstr_, x->cstr_, size_) == 0;
     }
-    
+
     /** Deep copy of this string */
     String * clone() { return new String(*this); }
 
@@ -82,11 +88,45 @@ public:
             hash = cstr_[i] + (hash << 6) + (hash << 16) - hash;
         return hash;
     }
+};
 
-    /**
-     * Returns the concatenation of this
-     */
-    String* concat(String* s) {
-        return new String(strcat(this->c_str(), s->c_str()));
+/** A string buffer builds a string from various pieces.
+ *  author: jv */
+class StrBuff : public Object {
+public:
+    char *val_; // owned; consumed by get()
+    size_t capacity_;
+    size_t size_;
+
+    StrBuff() {
+        val_ = new char[capacity_ = 10];
+        size_ = 0;
     }
- };
+    void grow_by_(size_t step) {
+        if (step + size_ < capacity_) return;
+        capacity_ *= 2;
+        if (step + size_ >= capacity_) capacity_ += step;
+        char* oldV = val_;
+        val_ = new char[capacity_];
+        memcpy(val_, oldV, size_);
+        delete[] oldV;
+    }
+    StrBuff& c(const char* str) {
+        size_t step = strlen(str);
+        grow_by_(step);
+        memcpy(val_+size_, str, step);
+        size_ += step;
+        return *this;
+    }
+    StrBuff& c(String &s) { return c(s.c_str());  }
+    StrBuff& c(size_t v) { return c(std::to_string(v).c_str());  } // Cpp
+
+    String* get() {
+        assert(val_ != nullptr); // can be called only once
+        grow_by_(1);     // ensure space for terminator
+        val_[size_] = 0; // terminate
+        String *res = new String(true, val_, size_);
+        val_ = nullptr; // val_ was consumed above
+        return res;
+    }
+};
