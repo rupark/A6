@@ -109,6 +109,7 @@ public:
         printf("reading");
         valread = read( sock_send , buffer, 100000);
         printf("%s\n",buffer);
+        handle_packet(buffer);
     }
 
     ~Server() {
@@ -196,20 +197,20 @@ public:
         cout << addresses[1]->cstr_ << endl;
     }
 
-    void handle_packet(char* buffer) {
-        printf("here");
+    void handle_packet(char buf[]) {
+        printf("handle packet - here");
         char** args = new char*[1000];
         int i = 0;
-        while (buffer != NULL)
+        while (buf != NULL)
         {
-            buffer = strtok (NULL, " ");
-            args[i] = buffer;
+            buf = strtok (NULL, " ");
+            args[i] = buf;
             i++;
         }
         switch (atoi(args[0])) {
             case 1:
                 //Add new ip and port to list
-                handle_register(*new Register(buffer));
+                handle_register(*new Register(buf));
                 //send out new directory to all nodes
                 send_dir_all_clients();
                 break;
