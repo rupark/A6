@@ -122,21 +122,21 @@ public:
     }
 
 
-    sockaddr_in create_sockaddr(String *ip_address, size_t port) {
-        struct sockaddr_in our_sockaddr;
-
-        our_sockaddr.sin_family = AF_INET;
-        our_sockaddr.sin_port = htons(port);
-
-        // Convert IPv4 and IPv6 addresses from text to binary form
-        if (inet_pton(AF_INET, ip_address->cstr_, &our_sockaddr.sin_addr) <= 0) {
-            printf("\nInvalid address/ Address not supported");
-            printf("%s", ip_address->cstr_);
-            printf("\n");
-        }
-
-        return our_sockaddr;
-    }
+//    sockaddr_in create_sockaddr(String *ip_address, size_t port) {
+//        struct sockaddr_in our_sockaddr;
+//
+//        our_sockaddr.sin_family = AF_INET;
+//        our_sockaddr.sin_port = htons(port);
+//
+//        // Convert IPv4 and IPv6 addresses from text to binary form
+//        if (inet_pton(AF_INET, ip_address->cstr_, &our_sockaddr.sin_addr) <= 0) {
+//            printf("\nInvalid address/ Address not supported");
+//            printf("%s", ip_address->cstr_);
+//            printf("\n");
+//        }
+//
+//        return our_sockaddr;
+//    }
 
 
     void send_dir_all_clients() {
@@ -153,27 +153,27 @@ public:
 
     void send_data(Message m) {
 
-//        // create socket
-//        if ((sock_send = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
-//            printf("\n Socket creation error \n");
-//
-//        }
-//
-//        // connect socket
-//        struct sockaddr_in our_sockaddr;
-//
-//        our_sockaddr = create_sockaddr(this->ip_addr, this->port);
-//
-//        if (connect(sock_send, (struct sockaddr *) &our_sockaddr, sizeof(our_sockaddr)) < 0) {
-//            printf("\nConnection Failed \n");
-//        }
-//
-//        // send data
-//        String *serial = m.serialize();
-//        send(sock_send, serial, sizeof(serial), 0);
-//
-//        // close socket
-//        //close(sock_send);
+        // create socket
+        if ((sock_send = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
+            printf("\n Socket creation error \n");
+
+        }
+
+        // connect socket
+        struct sockaddr_in our_sockaddr;
+
+        our_sockaddr = create_sockaddr(this->ip_addr, this->port);
+
+        if (connect(sock_send, (struct sockaddr *) &our_sockaddr, sizeof(our_sockaddr)) < 0) {
+            printf("\nConnection Failed \n");
+        }
+
+        // send data
+        String *serial = m.serialize();
+        send(sock_send, serial, sizeof(serial), 0);
+
+        // close socket
+        //close(sock_send);
 
     }
 
