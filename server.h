@@ -108,6 +108,7 @@ public:
         }
         printf("reading");
         valread = read( sock_send , buffer, 100000);
+        printf("handling");
         handle_packet(buffer);
         //printf("%s\n",buffer);
     }
