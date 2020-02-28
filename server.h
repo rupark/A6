@@ -32,8 +32,6 @@ public:
 
     int* sock_send_array;
     int sock_pos = 0;
-    sockaddr_in* s;
-    int sockaddr_pos = 0;
 
     Server(String *ip_addr, size_t port) {
         this->ip_addr = ip_addr;
@@ -45,7 +43,7 @@ public:
         ports[0] = this->port;
         this->nodes = 1;
         this->sock_send_array = new int[10000];
-        this->s = new sockaddr_in[10000];
+        //this->s = new sockaddr_in[10000];
 
         int valread;
         struct sockaddr_in address;
@@ -226,8 +224,13 @@ public:
                     Directory *d = new Directory(0, i, this->nodes, this->ports, this->addresses);
 
                     int addrlen = sizeof(s[i-1]);
-                    if ((sock_send = accept(sock_send_array[i-1], (struct sockaddr *) &s[i-1],
-                                            (socklen_t * ) &addrlen)) < 0) {
+                    struct sockaddr_in our_sockaddr;
+
+                    // if message does not have a sockaddr, build one.
+                    //if (m.kind_ == MsgKind::Register) {
+                    our_sockaddr = create_sockaddr(this->ip_addr, this->port);
+                    if ((sock_send = accept(sock_send_array[i-1], (struct sockaddr *) &our_sockaddr,
+                                            (socklen_t * ) &our_sockaddr)) < 0) {
                         perror("accept");
                         exit(EXIT_FAILURE);
                     }
