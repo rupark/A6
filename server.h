@@ -231,7 +231,7 @@ public:
                     }
                     send(sock_send_array[i - 1], d->serialize()->cstr_, 10000, 0);
                     //send_data(d);
-                    cout << d->serialize() << endl;
+                    cout << d->serialize()->cstr_ << endl;
                 }
 
                 break;
