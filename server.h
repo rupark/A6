@@ -162,18 +162,10 @@ public:
         // connect socket
         struct sockaddr_in our_sockaddr;
 
-        // if message does not have a sockaddr, build one.
-        //if (m.kind_ == MsgKind::Register) {
-            our_sockaddr = create_sockaddr(this->ip_addr, this->port);
-//        } else {
-//            String *ip = addresses[m.target_];
-//            size_t port = ports[m.target_];
-//            our_sockaddr = create_sockaddr(ip, port);
-//        }
+        our_sockaddr = create_sockaddr(this->ip_addr, this->port);
 
         if (connect(sock_send, (struct sockaddr *) &our_sockaddr, sizeof(our_sockaddr)) < 0) {
             printf("\nConnection Failed \n");
-
         }
 
         // send data
@@ -215,8 +207,26 @@ public:
                 for (size_t i = 1; i < this->nodes; i++) {
                     cout << addresses[i]->cstr_ << endl;
                     Directory *d = new Directory(0, i, this->nodes, this->ports, this->addresses);
+
+                    this->sock_send = init_client();
+
+                    if ((sock_send = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
+                        printf("\n Socket creation error \n");
+                    }
+
+                    // connect socket
+                    struct sockaddr_in our_sockaddr;
+
+                    our_sockaddr = create_sockaddr(this->addresses[i], this->port);
+
+                    if (connect(sock_send, (struct sockaddr *)&our_sockaddr, sizeof(our_sockaddr)) < 0) {
+                        printf("\nConnection Failed \n");
+
+                    }
+
                     send(sock_send, d->serialize()->cstr_, 10000, 0);
                     //send_data(d);
+
                     cout << d->serialize()->cstr_ << endl;
                 }
 
@@ -261,6 +271,56 @@ public:
             printf("\nInvalid address/ Address not supported");
             printf("%s", ip_addr);
             printf("\n");
+            return -1;
+        }
+        return tmpSocket;
+    }
+
+    sockaddr_in create_sockaddr(String* ip_address, size_t port) {
+        struct sockaddr_in our_sockaddr;
+
+        our_sockaddr.sin_family = AF_INET;
+        our_sockaddr.sin_port = htons(port);
+
+        // Convert IPv4 and IPv6 addresses from text to binary form
+        if(inet_pton(AF_INET, ip_address->cstr_, &our_sockaddr.sin_addr)<=0)
+        {
+            printf("\nInvalid address/ Address not supported");
+            printf("%s", ip_address->cstr_);
+            printf("\n");
+        }
+
+        return our_sockaddr;
+    }
+
+    int init_client() {
+
+        struct sockaddr_in server_addr;
+        //char buffer[1024] = {0};
+        printf("In client\n");
+        printf("creating socket\n");
+        int tmpSocket = 0;
+        if ((tmpSocket = socket(AF_INET, SOCK_STREAM, 0)) < 0)
+        {
+            printf("\n Socket creation error \n");
+            return -1;
+        }
+
+        server_addr.sin_family = AF_INET;
+        server_addr.sin_port = htons(this->port);
+
+        // Convert IPv4 and IPv6 addresses from text to binary form
+        if(inet_pton(AF_INET, this->ip_addr->cstr_, &server_addr.sin_addr)<=0)
+        {
+            printf("\nInvalid address/ Address not supported");
+            printf("%s", ip_addr);
+            printf("\n");
+            return -1;
+        }
+
+        if (connect(tmpSocket, (struct sockaddr *)&server_addr, sizeof(server_addr)) < 0)
+        {
+            printf("\nConnection Failed \n");
             return -1;
         }
         return tmpSocket;
