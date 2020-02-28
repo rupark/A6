@@ -106,9 +106,9 @@ public:
             perror("accept");
             exit(EXIT_FAILURE);
         }
-        printf("SERVER: reading\n");
+        printf("reading");
         valread = read( sock_send , buffer, 1024);
-        printf("MESSAGE RECEIVED: %s\n",buffer);
+        printf("%s\n",buffer );
     }
 
     ~Server() {
@@ -169,6 +169,8 @@ public:
             size_t port = ports[m.target_];
             our_sockaddr = create_sockaddr(ip, port);
         }
+
+
 
 
         if (connect(sock_send, (struct sockaddr *)&our_sockaddr, sizeof(our_sockaddr)) < 0) {
