@@ -48,12 +48,12 @@ public:
         printf("NODE: sending reg");
         this->send_reg();
         printf("NODE: DONE!");
+        close(sock_send);
 
         this->sock_send = init_client();
         printf("sending status");
         this->send_status();
          printf("done sending");
-
          close(sock_send);
     }
 
