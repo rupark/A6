@@ -41,8 +41,6 @@ public:
         this->nodes = 1;
 
         int valread;
-        int new_socket , max_clients = 30 , activity, i, client_socket[30], sd;
-        int max_sd;
         struct sockaddr_in address;
         int opt = 1;
         int addrlen = sizeof(address);
@@ -101,112 +99,13 @@ public:
             exit(EXIT_FAILURE);
         }
 
-        //set of socket descriptors
-        fd_set readfds;
-
-        //initialise all client_socket[] to 0 so not checked
-        for (i = 0; i < max_clients; i++)
+        printf("Accepting\n");
+        if ((sock_send = accept(sock_listen, (struct sockaddr *)&address,
+                                 (socklen_t*)&addrlen))<0)
         {
-            client_socket[i] = 0;
+            perror("accept");
+            exit(EXIT_FAILURE);
         }
-
-        while (true) {
-            //clear the socket set
-            FD_ZERO(&readfds);
-
-            //add master socket to set
-            FD_SET(sock_listen, &readfds);
-            max_sd = sock_listen;
-
-            //add child sockets to set
-            for (i = 0; i < max_clients; i++) {
-                //socket descriptor
-                sd = client_socket[i];
-
-                //if valid socket descriptor then add to read list
-                if (sd > 0)
-                    FD_SET(sd, &readfds);
-
-                //highest file descriptor number, need it for the select function
-                if (sd > max_sd)
-                    max_sd = sd;
-            }
-
-            //wait for an activity on one of the sockets , timeout is NULL ,
-            //so wait indefinitely
-            activity = select(max_sd + 1, &readfds, NULL, NULL, NULL);
-
-            if ((activity < 0) && (errno != EINTR)) {
-                printf("select error");
-            }
-
-            //If something happened on the master socket ,
-            //then its an incoming connection
-            if (FD_ISSET(sock_listen, &readfds)) {
-                if ((new_socket = accept(sock_listen,
-                                         (struct sockaddr *) &address, (socklen_t * ) & addrlen)) < 0) {
-                    perror("accept");
-                    exit(EXIT_FAILURE);
-                }
-
-                handle_packet();
-
-                //send new connection greeting message
-//                if (send(new_socket, message, strlen(message), 0) != strlen(message)) {
-//
-//                }
-
-                puts("Welcome message sent successfully");
-
-                //add new socket to array of sockets
-                for (i = 0; i < max_clients; i++) {
-                    //if position is empty
-                    if (client_socket[i] == 0) {
-                        client_socket[i] = new_socket;
-                        printf("Adding to list of sockets as %d\n", i);
-
-                        break;
-                    }
-                }
-            }
-
-//            //else its some IO operation on some other socket
-//            for (i = 0; i < max_clients; i++) {
-//                sd = client_socket[i];
-//
-//                if (FD_ISSET(sd, &readfds)) {
-//                    //Check if it was for closing , and also read the
-//                    //incoming message
-//                    if ((valread = read(sd, buffer, 1024)) == 0) {
-//                        //Somebody disconnected , get his details and print
-//                        getpeername(sd, (struct sockaddr *) &address, \
-//                        (socklen_t * ) & addrlen);
-//                        printf("Host disconnected , ip %s , port %d \n",
-//                               inet_ntoa(address.sin_addr), ntohs(address.sin_port));
-//
-//                        //Close the socket and mark as 0 in list for reuse
-//                        close(sd);
-//                        client_socket[i] = 0;
-//                    }
-//
-//                        //Echo back the message that came in
-//                    else {
-//                        //set the string terminating NULL byte on the end
-//                        //of the data read
-//                        buffer[valread] = '\0';
-//                        send(sd, buffer, strlen(buffer), 0);
-//                    }
-//                }
-//            }
-        }
-
-    //        printf("Accepting\n");
-//        if ((sock_send = accept(sock_listen, (struct sockaddr *)&address,
-//                                 (socklen_t*)&addrlen))<0)
-//        {
-//            perror("accept");
-//            exit(EXIT_FAILURE);
-//        }
         printf("reading\n");
        // valread = read( sock_send , buffer, 100000);
         //printf("%s\n",buffer);
@@ -324,7 +223,7 @@ public:
                 handle_register(*new Register(buffer));
 
                 cout << "address:";
-                cout << addresses[1]->c_str() << endl;
+                cout << addresses[1]->cstr_ << endl;
 
                 cout << "nodes: ";
                 cout << nodes << endl;
