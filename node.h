@@ -165,6 +165,7 @@ public:
          printf("NODE: in handle packet\n");
          char* buffer = new char[10000];
          read( sock_send , buffer, 10000);
+         cout << buffer << endl;
 
          char* msg_kind = new char[10000];
          *msg_kind = buffer[0];
