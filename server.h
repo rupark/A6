@@ -109,7 +109,7 @@ public:
         }
         printf("reading");
         valread = read( sock_send , buffer, 100000);
-        printf("handling");
+        cout << buffer.cstr_ << endl;
         handle_packet(buffer);
     }
 
