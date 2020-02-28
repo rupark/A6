@@ -210,25 +210,25 @@ public:
             args[i] = buffer;
             i++;
         }
-//
-//        switch (atoi(args[0])) {
-//            case 1:
-//                cout << "SERVER: handling register message";
-//                //Add new ip and port to list
-//                handle_register(*new Register(buffer));
-//                //send out new directory to all nodes
-//                send_dir_all_clients();
-//                break;
-//            case 2:
-//
-//                break;
-//            case 3: //status
-//                cout << args[3] << endl;
-//                break;
-//            case 4:
-//                // TODO because server does not receive Directory messages
-//                break;
-//        }
+
+        switch (atoi(args[0])) {
+            case 1:
+                cout << "SERVER: handling register message";
+                //Add new ip and port to list
+                //handle_register(*new Register(buffer));
+                //send out new directory to all nodes
+                //send_dir_all_clients();
+                break;
+            case 2:
+
+                break;
+            case 3: //status
+                cout << args[3] << endl;
+                break;
+            case 4:
+                // TODO because server does not receive Directory messages
+                break;
+        }
     }
 
     /**
