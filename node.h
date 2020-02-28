@@ -123,7 +123,7 @@ public:
 
          handle_packet();
 
-         printf(nodes);
+         cout << this->nodes << endl;
 //         char buffer[1024] = {0};
 //         int valread = read( sock_send , buffer, 1024);
 //         printf("%s\n",buffer );
