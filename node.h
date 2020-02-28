@@ -113,7 +113,8 @@ public:
 
          // send data
          String* serial = m.serialize();
-         printf("NODE: Message Sending = %s", serial->c_str());
+         printf("NODE: about to print serial message")
+         printf("NODE: Message Sending = %s\n", serial->c_str());
          send(sock_send , serial, sizeof(serial) , 0 );
 
          // close socket
