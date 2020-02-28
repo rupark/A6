@@ -217,7 +217,8 @@ public:
 
                 break;
             case 3: //status
-                cout << args[3] << endl;
+                Status* a = new Status(buffer);
+                cout << a->msg_->cstr_ << endl;
                 break;
             case 4:
                 // TODO because server does not receive Directory messages

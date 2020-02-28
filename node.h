@@ -113,13 +113,15 @@ public:
 
          }
 
+         String* serial;
+
          // send data
          if (m->kind_ == MsgKind::Register) {
-             String *serial = dynamic_cast<Register *>(m)->serialize();
+             serial = dynamic_cast<Register *>(m)->serialize();
          } else if (m->kind_ == MsgKind::Status) {
-             String *serial = dynamic_cast<Status *>(m)->serialize();
+             serial = dynamic_cast<Status *>(m)->serialize();
          } else {
-             String *serial = dynamic_cast<Ack *>(m)->serialize();
+             serial = dynamic_cast<Ack *>(m)->serialize();
          }
 
          //String* serial = new String("1?-1?0?127.0.0.1?8080");
