@@ -170,6 +170,8 @@ public:
         printf("Starting server\n");
         printf("Creating Socket\n");
 
+        close(sock_listen);
+
         // Creating socket file descriptor
         if ((sock_listen = socket(AF_INET, SOCK_STREAM, 0)) == 0) {
             perror("socket failed");
