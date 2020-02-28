@@ -177,8 +177,8 @@ public:
             case 1:
                 //TODO error?
                 break;
-            case 2:
-                //TODO
+            case 2: //ack
+                cout << "Ack recieved in NODE";
                 break;
             case 3:
 

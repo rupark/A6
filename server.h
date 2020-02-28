@@ -100,6 +100,7 @@ public:
                 perror("accept");
                 exit(EXIT_FAILURE);
             }
+
             printf("reading\n");
 
             handle_packet();
