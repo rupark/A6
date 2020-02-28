@@ -96,13 +96,13 @@ public:
          struct sockaddr_in our_sockaddr;
 
          // if message does not have a sockaddr, build one.
-         if (m.kind_ == MsgKind::Register) {
+         //if (m.kind_ == MsgKind::Register) {
              our_sockaddr = create_sockaddr(this->server_addr, this->server_port);
-         } else {
-             String *ip = addresses[m.target_];
-             size_t port = ports[m.target_];
-             our_sockaddr = create_sockaddr(ip, port);
-         }
+         //} else {
+             //String *ip = addresses[m.target_];
+             //size_t port = ports[m.target_];
+             //our_sockaddr = create_sockaddr(ip, port);
+         //}
 
          // bind?
 
