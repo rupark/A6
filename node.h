@@ -165,7 +165,7 @@ public:
     void handle_packet() {
         char *buffer = new char[10000];
         read(sock_send, buffer, 10000);
-        cout << buffer << endl;
+        //cout << buffer << endl;
 
         char *msg_kind = new char[10000];
         *msg_kind = buffer[0];
