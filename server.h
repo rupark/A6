@@ -232,7 +232,7 @@ public:
 
     void handle_status(Status s) {
         cout << s.msg_->cstr_ << endl;
-        Ack* ack = new Ack(0, s->sender_);
+        Ack* ack = new Ack(0, s.sender_);
         send(sock_send, ack->serialize()->cstr_, 10000, 0);
     }
 
