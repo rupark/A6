@@ -48,6 +48,8 @@ public:
         int opt = 1;
         int addrlen = sizeof(address);
 
+        this->sock_send_array = new int[10000];
+
         printf("Starting server\n");
         printf("Creating Socket\n");
 
