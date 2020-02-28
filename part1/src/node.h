@@ -122,7 +122,6 @@ public:
             serial = dynamic_cast<Register *>(m)->serialize();
         } else if (m->kind_ == MsgKind::Status) {
             serial = dynamic_cast<Status *>(m)->serialize();
-            cout << serial->cstr_ << endl;
         } else {
             serial = dynamic_cast<Ack *>(m)->serialize();
         }
@@ -189,13 +188,10 @@ public:
     //Used for initializing sock_send
     int init_client() {
         struct sockaddr_in server_addr;
-        //char buffer[1024] = {0};
-        printf("In client\n");
-        printf("creating socket\n");
         int tmpSocket = 0;
         if ((tmpSocket = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
             printf("\n Socket creation error \n");
-            return -1;
+            exit(1);
         }
 
         server_addr.sin_family = AF_INET;
@@ -206,12 +202,12 @@ public:
             printf("\nInvalid address/ Address not supported");
             printf("%s", ip_addr);
             printf("\n");
-            return -1;
+            exit(1);
         }
 
         if (connect(tmpSocket, (struct sockaddr *) &server_addr, sizeof(server_addr)) < 0) {
             printf("\nConnection Failed \n");
-            return -1;
+            exit(1);
         }
         return tmpSocket;
     }

@@ -131,14 +131,13 @@ public:
         cout << "SERVER: register handled." << endl;
         
         for (size_t i = 1; i < this->nodes; i++) {
-            cout << addresses[i]->cstr_ << endl;
             Directory *d = new Directory(0, i, this->nodes, this->ports, this->addresses);
-            cout << d->serialize()->cstr_ << endl;
 
             this->sock_send = init_client();
 
             if ((sock_send = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
                 printf("\n Socket creation error \n");
+                exit(1);
             }
 
             sock_send = sock_send_array[0];
@@ -225,6 +224,7 @@ public:
             printf("\nInvalid address/ Address not supported");
             printf("%s", ip_address->cstr_);
             printf("\n");
+            exit(1);
         }
 
         return our_sockaddr;
