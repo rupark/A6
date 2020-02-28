@@ -56,11 +56,10 @@ public:
         this->send_status();
         printf("done sending");
         cout << nodes << endl;
-        close(sock_send);
+        //close(sock_send);
          while (1) {
              handle_packet();
          }
-        //close(sock_send);
     }
 
     ~Node() {
