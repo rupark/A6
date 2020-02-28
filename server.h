@@ -226,8 +226,9 @@ public:
                     // if message does not have a sockaddr, build one.
                     //if (m.kind_ == MsgKind::Register) {
                     our_sockaddr = create_sockaddr(this->ip_addr, this->port);
-                    if ((sock_send = accept(sock_send_array[i-1], (struct sockaddr *) &our_sockaddr,
-                                            (socklen_t * ) &our_sockaddr)) < 0) {
+                    int addrlen = sizeof(our_sockaddr);
+                    if ((sock_send = accept(sock_send_array[i-1], (struct sockaddr *) &address,
+                                            (socklen_t * ) & addrlen)) < 0) {
                         perror("accept");
                         exit(EXIT_FAILURE);
                     }
