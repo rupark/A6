@@ -231,7 +231,7 @@ public:
     }
 
     void handle_status(Status s) {
-        cout << s->msg_->cstr_ << endl;
+        cout << s.msg_->cstr_ << endl;
     }
 
     /**
