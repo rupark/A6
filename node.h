@@ -121,9 +121,10 @@ public:
          send(sock_send , serial->cstr_, 10000, 0 );
          printf("NODE: message sent");
 
-         char buffer[1024] = {0};
-         int valread = read( sock_send , buffer, 1024);
-         printf("%s\n",buffer );
+         handle_packet();
+//         char buffer[1024] = {0};
+//         int valread = read( sock_send , buffer, 1024);
+//         printf("%s\n",buffer );
 
          printf("got message");
 
@@ -136,11 +137,30 @@ public:
          this->ports = d->ports;
          this->addresses = d->addresses;
          this->nodes = d->nodes;
+         printf("Directory handled");
      }
 
      // Receives type Message -- has MsgKind field
-     void handle_packet(char* buffer) {
-        switch (buffer[0]) {
+     void handle_packet() {
+         printf("NODE: in handle packet\n");
+         char* buffer = new char[10000];
+         read( sock_send , buffer, 10000);
+//
+//        char** args = new char*[1000];
+//        char* token = strtok(buffer, "?");
+//        int i = 0;
+//
+//        while (token != NULL)
+//        {
+//            args[i] = token;
+//            token = strtok (NULL, "?");
+//            printf("TOKENS: %s\n", args[i]);
+//            i++;
+//        }
+
+        char* msg_kind = &buffer[0];
+
+        switch (atoi(msg_kind)) {
             case 1:
                 //TODO error?
                 break;
@@ -151,6 +171,7 @@ public:
 
                 break;
             case 4: //Directory
+                printf("Found directory");
                 Directory* d = new Directory(buffer);
                 handle_directory(d);
                 break;
