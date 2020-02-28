@@ -173,6 +173,7 @@ public:
             perror("bind failed");
             exit(EXIT_FAILURE);
         }
+
         printf("Listener on port %d \n", port);
 
         //try to specify maximum of 3 pending connections for the master socket
