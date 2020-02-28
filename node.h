@@ -158,8 +158,8 @@ public:
 //            i++;
 //        }
 
-        char* msg_kind = &buffer[0];
-        printf(msg_kind);
+        char* msg_kind;
+        *msg_kind = buffer[0];
 
         switch (atoi(msg_kind)) {
             case 1:
