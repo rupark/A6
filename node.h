@@ -48,6 +48,7 @@ public:
         printf("NODE: sending reg");
         this->send_reg();
         printf("NODE: DONE!");
+        this->send_status();
     }
 
     ~Node() {
@@ -61,6 +62,10 @@ public:
 
     void send_reg() {
        send_data(*new Register(-1, 0, this->port, this->ip_addr));
+    }
+
+    void send_status() {
+        send_data(*new Status(-1, 0, new String("hi")));
     }
 
     sockaddr_in create_sockaddr(String* ip_address, size_t port) {

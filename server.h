@@ -99,14 +99,6 @@ public:
             exit(EXIT_FAILURE);
         }
 
-    for (size_t j = 0; j < this->nodes; j++) {
-        cout << "SERVER: " << endl;
-        printf("%s\n",this->addresses[j]->c_str());
-
-//        cout << "NODE: ";
-//        printf("%s\n",n1->addresses[j]->c_str());
-    }
-
         printf("Accepting\n");
         if ((sock_send = accept(sock_listen, (struct sockaddr *)&address,
                                  (socklen_t*)&addrlen))<0)
@@ -179,6 +171,8 @@ public:
         }
 
 
+
+
         if (connect(sock_send, (struct sockaddr *)&our_sockaddr, sizeof(our_sockaddr)) < 0) {
             printf("\nConnection Failed \n");
 
@@ -219,8 +213,8 @@ public:
             case 2:
 
                 break;
-            case 3:
-
+            case 3: //status
+                cout << args[3] << endl;
                 break;
             case 4:
                 // TODO because server does not receive Directory messages
