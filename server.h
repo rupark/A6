@@ -136,8 +136,22 @@ public:
 
         //set master socket to allow multiple connections ,
         //this is just a good habit, it will work without this
-        if( setsockopt(master_socket, SOL_SOCKET, SO_REUSEADDR, (char *)&opt,
-                       sizeof(opt)) < 0 )
+//        if( setsockopt(master_socket, SOL_SOCKET, SO_REUSEADDR, (char *)&opt,
+//                       sizeof(opt)) < 0 )
+//        {
+//            perror("setsockopt");
+//            exit(EXIT_FAILURE);
+//        }
+
+        if (setsockopt(master_socket, SOL_SOCKET, SO_REUSEADDR,
+                       (char *)&opt, sizeof(opt)) < 0)
+        {
+            perror("setsockopt");
+            exit(EXIT_FAILURE);
+        }
+
+        if (setsockopt(master_socket, SOL_SOCKET, SO_REUSEPORT,
+                       (char *)&opt, sizeof(opt)) < 0)
         {
             perror("setsockopt");
             exit(EXIT_FAILURE);
