@@ -48,7 +48,7 @@ public:
         printf("NODE: sending reg");
         this->send_reg();
         printf("NODE: DONE!");
-        this->send_status();
+//        this->send_status();
     }
 
     ~Node() {
@@ -113,8 +113,9 @@ public:
 
          // send data
          String* serial = m.serialize();
+         printf("NODE: Message send = %s",serial->c_str());
          send(sock_send , serial, sizeof(serial) , 0 );
-
+         printf("NODE: message sent");
          // close socket
          close(sock_send);
 
