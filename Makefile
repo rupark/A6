@@ -14,7 +14,7 @@ test.o:
 	g++ --std=c++11 -c tests.cpp -o test.o
 
 testClient2.o:
-    g++ --std=c++11 -c client2.cpp -o testClient2.o
+	g++ --std=c++11 -c client2.cpp -o testClient2.o
 
 testClient.o:
 	g++ --std=c++11 -c testClient.cpp -o testClient.o
