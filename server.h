@@ -225,14 +225,13 @@ public:
                     cout << addresses[i]->cstr_ << endl;
                     Directory *d = new Directory(0, i, this->nodes, this->ports, this->addresses);
 
-                    if ((sock_send_array[i - 1] = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
-                        printf("\n Socket creation error \n");
+                    if ((sock_send = accept(sock_send_array[i-1], (struct sockaddr *) &s[i-1],
+                                            (socklen_t * ) & addrlen)) < 0) {
+                        perror("accept");
+                        exit(EXIT_FAILURE);
                     }
-                    if (connect(sock_send_array[i - 1], (struct sockaddr *) &s[i-1], sizeof(s[i-1])) < 0) {
-                        printf("\nConnection Failed \n");
-                    }
-                    cout << d->serialize()->cstr_ << endl;
-                    send(sock_send_array[i - 1], d->serialize()->cstr_, 10000, 0);
+                    //cout << d->serialize()->cstr_ << endl;
+                    send(sock_send, d->serialize()->cstr_, 10000, 0);
                     //send_data(d);
                     cout << d->serialize()->cstr_ << endl;
                 }
