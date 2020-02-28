@@ -120,7 +120,8 @@ public:
          //if (m->kind_ MsgKind::Register) {
          //    serial = dynamic_cast<Register *>(m)->serialize();
          //} else if (m->kind_ == MsgKind::Status) {
-             serial = dynamic_cast<Status *>(m)->serialize();
+         serial = dynamic_cast<Status *>(m)->serialize();
+         cout << serial->cstr_ << endl;
          //} else {
          //    serial = dynamic_cast<Ack *>(m)->serialize();
          //}
