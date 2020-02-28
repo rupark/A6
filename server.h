@@ -41,6 +41,9 @@ public:
         this->nodes = 1;
 
         int valread;
+        int new_socket , max_clients = 30 , activity, i;
+        int max_sd;
+        struct sockaddr_in address;
         struct sockaddr_in address;
         int opt = 1;
         int addrlen = sizeof(address);
