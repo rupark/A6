@@ -104,6 +104,8 @@ public:
             printf("reading\n");
 
             handle_packet();
+
+            close(sock_send);
         }
 
     }
