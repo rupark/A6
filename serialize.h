@@ -93,10 +93,15 @@ public:
         StrBuff* s = new StrBuff();
         char str[10000] = ""; /* In fact not necessary as snprintf() adds the
                          0-terminator. */
-        s->c("3?");
-        snprintf(str, sizeof this->sender_, "%zu?", this->sender_);
+        snprintf(str, sizeof str, "3?", this->sender_);
         s->c(str);
-        snprintf(str, sizeof this->target_, "%zu?", this->target_);
+        snprintf(str, sizeof this->sender_, "%zu", this->sender_);
+        s->c(str);
+        snprintf(str, sizeof str, "?", this->sender_);
+        s->c(str);
+        snprintf(str, sizeof this->target_, "%zu", this->target_);
+        s->c(str);
+        snprintf(str, sizeof str, "?", this->sender_);
         s->c(str);
         snprintf(str, sizeof msg_, "%s", msg_->cstr_);
         s->c(str);
