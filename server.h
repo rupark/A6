@@ -110,7 +110,7 @@ public:
 //       // valread = read( sock_send , buffer, 100000);
 //        //printf("%s\n",buffer);
 
-        int opt = TRUE;
+        int opt = 1;
         int master_socket , addrlen , new_socket , client_socket[30] ,
                 max_clients = 30 , activity, i , valread , sd;
         int max_sd;
@@ -146,7 +146,7 @@ public:
         //type of socket created
         address.sin_family = AF_INET;
         address.sin_addr.s_addr = INADDR_ANY;
-        address.sin_port = htons( PORT );
+        address.sin_port = htons( port );
 
         //bind the socket to localhost port 8888
         if (bind(master_socket, (struct sockaddr *)&address, sizeof(address))<0)
