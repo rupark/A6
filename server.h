@@ -223,7 +223,7 @@ public:
                 handle_register(*new Register(buffer));
 
                 cout << "address:";
-                cout << addresses[1] << endl;
+                cout << addresses[1]->c_str() << endl;
 
                 cout << "nodes: ";
                 cout << nodes << endl;
