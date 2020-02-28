@@ -108,7 +108,8 @@ public:
         }
         printf("reading");
         valread = read( sock_send , buffer, 100000);
-        printf("%s\n",buffer);
+        handle_packet(buffer);
+        //printf("%s\n",buffer);
     }
 
     ~Server() {
@@ -192,6 +193,8 @@ public:
         this->addresses[this->nodes] = r.address;
         this->ports[this->nodes] = r.port;
         nodes++;
+
+        cout << addresses[1]->cstr_ << endl;
     }
 
     void handle_packet(char* buffer) {
