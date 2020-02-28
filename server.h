@@ -191,6 +191,7 @@ public:
         printf("SERVER: in handle packet\n");
         char *buffer = new char[10000];
         read(sock_send, buffer, 10000);
+        cout << buffer;
 
         char *msg_kind = &buffer[0];
 
@@ -219,7 +220,6 @@ public:
                 break;
             case 3: //status
             {
-                cout << "here: ";
                 Status *a = new Status(buffer);
                 cout << a->msg_->cstr_ << endl;
             }
