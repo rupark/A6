@@ -32,6 +32,8 @@ public:
 
     int* sock_send_array;
     int sock_pos = 0;
+    sockaddr_in* s;
+    int sockaddr_pos = 0;
 
     Server(String *ip_addr, size_t port) {
         this->ip_addr = ip_addr;
@@ -43,12 +45,12 @@ public:
         ports[0] = this->port;
         this->nodes = 1;
         this->sock_send_array = new int[10000];
+        this->s = new sockaddr_in[10000];
 
         int valread;
         struct sockaddr_in address;
         int opt = 1;
         int addrlen = sizeof(address);
-
 
         printf("Starting server\n");
         printf("Creating Socket\n");
@@ -107,6 +109,8 @@ public:
 
             sock_send_array[sock_pos] = sock_send;
             sock_pos++;
+            s[sockaddr_pos] = address;
+            sockaddr_pos++;
 
             printf("reading\n");
 
