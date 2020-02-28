@@ -108,8 +108,8 @@ public:
         }
         printf("reading");
         valread = read( sock_send , buffer, 100000);
-        //handle_packet(buffer);
-        printf("%s\n",buffer);
+        handle_packet(buffer);
+        //printf("%s\n",buffer);
     }
 
     ~Server() {
