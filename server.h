@@ -108,8 +108,9 @@ public:
         }
         printf("reading");
         valread = read( sock_send , buffer, 100000);
-        printf("%s\n",buffer);
-        handle_packet(buffer);
+        //printf("%s\n",buffer);
+        char* vals = buffer;
+        handle_packet(vals);
     }
 
     ~Server() {
@@ -197,7 +198,7 @@ public:
         cout << addresses[1]->cstr_ << endl;
     }
 
-    void handle_packet(char buf[]) {
+    void handle_packet(char* buf) {
         printf("handle packet - here");
         char** args = new char*[1000];
         int i = 0;
