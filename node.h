@@ -53,6 +53,8 @@ public:
         printf("sending status");
         this->send_status();
          printf("done sending");
+
+         close(sock_send);
     }
 
     ~Node() {
