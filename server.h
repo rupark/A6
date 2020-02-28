@@ -195,6 +195,7 @@ public:
     }
 
     void handle_packet(char* buffer) {
+        printf(buffer);
         char** args = new char*[1000];
         int i = 0;
         while (buffer != NULL)
