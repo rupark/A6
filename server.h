@@ -41,9 +41,8 @@ public:
         this->nodes = 1;
 
         int valread;
-        int new_socket , max_clients = 30 , activity, i;
+        int new_socket , max_clients = 30 , activity, i, client_socket[30], sd;
         int max_sd;
-        struct sockaddr_in address;
         struct sockaddr_in address;
         int opt = 1;
         int addrlen = sizeof(address);
@@ -143,17 +142,19 @@ public:
 
             //If something happened on the master socket ,
             //then its an incoming connection
-            if (FD_ISSET(master_socket, &readfds)) {
+            if (FD_ISSET(sock_listen, &readfds)) {
                 if ((new_socket = accept(sock_listen,
                                          (struct sockaddr *) &address, (socklen_t * ) & addrlen)) < 0) {
                     perror("accept");
                     exit(EXIT_FAILURE);
                 }
 
+                handle_packet();
+
                 //send new connection greeting message
-                if (send(new_socket, message, strlen(message), 0) != strlen(message)) {
-                    handle_packet();
-                }
+//                if (send(new_socket, message, strlen(message), 0) != strlen(message)) {
+//
+//                }
 
                 puts("Welcome message sent successfully");
 
