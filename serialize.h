@@ -49,9 +49,15 @@ public:
     }
 
     String* serialize() {
+        StrBuff* s = new StrBuff();
         char str[256] = ""; /* In fact not necessary as snprintf() adds the
                          0-terminator. */
-        return new String("2 ");
+        s->c("2?");
+        snprintf(str, sizeof this->sender_, "%zu?", this->sender_);
+        s->c(str);
+        snprintf(str, sizeof this->target_, "%zu?", this->target_);
+        s->c(str);
+        return s->get();
     }
 
 };
@@ -206,7 +212,9 @@ public:
             s->c(str);
         }
         for (int i = 0; i < nodes; i++) {
-            snprintf(str, sizeof ports[i], "%s?", addresses[i]->cstr_);
+            snprintf(str, sizeof str, "%s", addresses[i]->cstr_);
+            s->c(str);
+            snprintf(str, sizeof str, "?");
             s->c(str);
         }
         return s->get();
