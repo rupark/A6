@@ -197,7 +197,7 @@ public:
     }
 
     void handle_packet() {
-        char buffer[10000] = {0};
+        char* buffer = new char[10000];
         read( sock_send , buffer, 10000);
 
         char** args = new char*[1000];
@@ -205,7 +205,7 @@ public:
         while (buffer != NULL)
         {
             buffer = strtok (NULL, " ");
-            args[i] = buf;
+            args[i] = buffer;
             i++;
         }
 
