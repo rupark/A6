@@ -48,6 +48,7 @@ public:
         printf("NODE: sending reg");
         this->send_reg();
         //printf("NODE: DONE!");
+        this->sock_send = init_client();
         printf("sending status");
         this->send_status();
          printf("done sending");
@@ -156,19 +157,6 @@ public:
          printf("NODE: in handle packet\n");
          char* buffer = new char[10000];
          read( sock_send , buffer, 10000);
-         printf(buffer);
-//
-//        char** args = new char*[1000];
-//        char* token = strtok(buffer, "?");
-//        int i = 0;
-//
-//        while (token != NULL)
-//        {
-//            args[i] = token;
-//            token = strtok (NULL, "?");
-//            printf("TOKENS: %s\n", args[i]);
-//            i++;
-//        }
 
         char* msg_kind;
         *msg_kind = buffer[0];
