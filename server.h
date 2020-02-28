@@ -221,7 +221,6 @@ public:
                     cout << addresses[i]->cstr_ << endl;
                     Directory *d = new Directory(0, i, this->nodes, this->ports, this->addresses);
 
-                    int addrlen = sizeof(s[i-1]);
                     struct sockaddr_in our_sockaddr;
 
                     // if message does not have a sockaddr, build one.
