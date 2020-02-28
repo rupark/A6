@@ -29,6 +29,8 @@ public:
     int sock_send;
 
     Node(String *server_addr, size_t server_port, String *ip_addr, size_t port) {
+        close(sock_send);
+
         this->server_addr = server_addr;
         this->server_port = server_port;
 
