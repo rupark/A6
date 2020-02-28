@@ -159,6 +159,7 @@ public:
 //        }
 
         char* msg_kind = &buffer[0];
+        printf(msg_kind);
 
         switch (atoi(msg_kind)) {
             case 1:
