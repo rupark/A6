@@ -44,8 +44,7 @@ public:
         struct sockaddr_in address;
         int opt = 1;
         int addrlen = sizeof(address);
-        //char buffer[10000] = {0};
-        char* buffer = new char[1000];
+        char buffer[10000] = {0};
 
 
         printf("Starting server\n");
@@ -109,8 +108,7 @@ public:
         }
         printf("reading");
         valread = read( sock_send , buffer, 100000);
-        cout << buffer << endl;
-        handle_packet(buffer);
+        printf("%s\n",buffer);
     }
 
     ~Server() {

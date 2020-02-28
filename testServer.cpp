@@ -8,7 +8,9 @@ using namespace std;
 
 int main(int argc, char const *argv[])
 {
-    //Status* s = new Status(0, 1, new String("hello"));
+    Status* s = new Status(0, 1, new String("hello"));
+    cout << s->serialize() << endl;
+
 
 //    size_t* ports = new size_t[3];
 //    ports[0] = 1;
