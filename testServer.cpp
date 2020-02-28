@@ -37,7 +37,7 @@ int main(int argc, char const *argv[])
 //    cout << c->serialize()->cstr_ << endl;
 
     cout << "Creating Server" << endl;
-    Server* s1 = new Server(new String("127.0.0.3"), 8080);
+    Server* s1 = new Server(new String("127.0.0.7"), 8080);
     cout << "Server Made" << endl;
 
 //    cout << "Creating Node" << endl;
