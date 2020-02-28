@@ -8,7 +8,7 @@ server: serialize.h server.h node.h testServer.o
 	g++ --std=c++11 node.h serialize.h server.h testServer.o node.h -o server
 
 client2: serialize.h server.h node.h testClient2.o
-        g++ --std=c++11 node.h serialize.h server.h testClient2.o node.h -o client
+    g++ --std=c++11 node.h serialize.h server.h testClient2.o node.h -o client
 
 test.o:
 	g++ --std=c++11 -c tests.cpp -o test.o
@@ -22,7 +22,7 @@ testClient.o:
 testServer.o:
 	g++ --std=c++11 -c testServer.cpp -o testServer.o
 
-build: client server
+build: client server client2
 
 
 run:
