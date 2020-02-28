@@ -112,7 +112,7 @@ public:
 
             handle_packet();
 
-            //close(sock_listen);
+            close(sock_listen);
             //close(sock_send);
         }
 
@@ -220,6 +220,10 @@ public:
                 for (size_t i = 1; i < this->nodes; i++) {
                     cout << addresses[i]->cstr_ << endl;
                     Directory *d = new Directory(0, i, this->nodes, this->ports, this->addresses);
+
+                    if ((sock_send_array[i - 1] = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
+                        printf("\n Socket creation error \n");
+                    }
                     struct sockaddr_in our_sockaddr;
                     our_sockaddr = create_sockaddr(this->ip_addr, this->port);
                     if (connect(sock_send_array[i - 1], (struct sockaddr *) &our_sockaddr, sizeof(our_sockaddr)) < 0) {
