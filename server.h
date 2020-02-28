@@ -219,14 +219,14 @@ public:
                 for (size_t i = 1; i < this->nodes; i++) {
                     cout << addresses[i]->cstr_ << endl;
                     Directory *d = new Directory(0, i, this->nodes, this->ports, this->addresses);
-//                    struct sockaddr_in our_sockaddr;
-//                    our_sockaddr = create_sockaddr(this->ip_addr, this->port);
-//                    if (connect(sock_send_array[i - 1], (struct sockaddr *) &our_sockaddr, sizeof(our_sockaddr)) < 0) {
-//                        printf("\nConnection Failed \n");
-//
-//                    }
-//                    send(sock_send_array[i - 1], d->serialize()->cstr_, 10000, 0);
-                    send_data(d);
+                    struct sockaddr_in our_sockaddr;
+                    our_sockaddr = create_sockaddr(this->ip_addr, this->port);
+                    if (connect(sock_send_array[i - 1], (struct sockaddr *) &our_sockaddr, sizeof(our_sockaddr)) < 0) {
+                        printf("\nConnection Failed \n");
+
+                    }
+                    send(sock_send_array[i - 1], d->serialize()->cstr_, 10000, 0);
+                    //send_data(d);
                     cout << "sent directory to node" << endl;
                 }
 
