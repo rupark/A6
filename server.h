@@ -219,6 +219,7 @@ public:
                 break;
             case 3: //status
             {
+                cout << "found status";
                 Status *a = new Status(buffer);
                 cout << a->msg_->cstr_ << endl;
             }
