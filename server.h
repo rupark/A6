@@ -49,45 +49,45 @@ public:
         printf("Starting server\n");
         printf("Creating Socket\n");
 
-        // Creating socket file descriptor
-        if ((sock_listen = socket(AF_INET, SOCK_STREAM, 0)) == 0) {
-            perror("socket failed");
-            exit(EXIT_FAILURE);
-        }
-
-        printf("setsockopt\n");
-        // Forcefully attaching socket to the port 8080
-        if (setsockopt(sock_listen, SOL_SOCKET, SO_REUSEADDR,
-                       &opt, sizeof(opt)) < 0) {
-            perror("setsockopt");
-            exit(EXIT_FAILURE);
-        }
-
-        if (setsockopt(sock_listen, SOL_SOCKET, SO_REUSEPORT,
-                       &opt, sizeof(opt)) < 0) {
-            perror("setsockopt");
-            exit(EXIT_FAILURE);
-        }
-
-        address.sin_family = AF_INET;
-        address.sin_port = htons(this->port);
-
-        if (inet_pton(AF_INET, "127.0.0.7", &address.sin_addr) <= 0) {
-            printf("SERVER: ERROR INET");
-            exit(EXIT_FAILURE);
-        }
-
-        printf("Binding server socket:");
-        printf("%s\n", this->ip_addr->cstr_);
-        // Forcefully attaching socket to the port 8080
-        if (bind(sock_listen, (struct sockaddr *) &address, sizeof(address)) < 0) {
-            int e = errno;
-            printf("EXITING %d", e);
-            exit(EXIT_FAILURE);
-            perror("binding");
-        }
-
         while (1) {
+            // Creating socket file descriptor
+            if ((sock_listen = socket(AF_INET, SOCK_STREAM, 0)) == 0) {
+                perror("socket failed");
+                exit(EXIT_FAILURE);
+            }
+
+            printf("setsockopt\n");
+            // Forcefully attaching socket to the port 8080
+            if (setsockopt(sock_listen, SOL_SOCKET, SO_REUSEADDR,
+                           &opt, sizeof(opt)) < 0) {
+                perror("setsockopt");
+                exit(EXIT_FAILURE);
+            }
+
+            if (setsockopt(sock_listen, SOL_SOCKET, SO_REUSEPORT,
+                           &opt, sizeof(opt)) < 0) {
+                perror("setsockopt");
+                exit(EXIT_FAILURE);
+            }
+
+            address.sin_family = AF_INET;
+            address.sin_port = htons(this->port);
+
+            if (inet_pton(AF_INET, "127.0.0.7", &address.sin_addr) <= 0) {
+                printf("SERVER: ERROR INET");
+                exit(EXIT_FAILURE);
+            }
+
+            printf("Binding server socket:");
+            printf("%s\n", this->ip_addr->cstr_);
+            // Forcefully attaching socket to the port 8080
+            if (bind(sock_listen, (struct sockaddr *) &address, sizeof(address)) < 0) {
+                int e = errno;
+                printf("EXITING %d", e);
+                exit(EXIT_FAILURE);
+                perror("binding");
+            }
+
             printf("Listening\n");
             if (listen(sock_listen, 3) < 0) {
                 perror("listen");
@@ -191,7 +191,6 @@ public:
         printf("SERVER: in handle packet\n");
         char *buffer = new char[10000];
         read(sock_send, buffer, 10000);
-        cout << buffer;
 
         char *msg_kind = &buffer[0];
 
