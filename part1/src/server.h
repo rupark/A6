@@ -204,8 +204,6 @@ public:
         // Convert IPv4 and IPv6 addresses from text to binary form
         if (inet_pton(AF_INET, ip_address, &server_addr.sin_addr) <= 0) {
             printf("\nInvalid address/ Address not supported");
-            printf("%s", ip_addr);
-            printf("\n");
             exit(1);
         }
         return tmpSocket;
@@ -222,8 +220,6 @@ public:
         if(inet_pton(AF_INET, ip_address->cstr_, &our_sockaddr.sin_addr)<=0)
         {
             printf("\nInvalid address/ Address not supported");
-            printf("%s", ip_address->cstr_);
-            printf("\n");
             exit(1);
         }
 
@@ -247,8 +243,6 @@ public:
         if(inet_pton(AF_INET, this->ip_addr->cstr_, &server_addr.sin_addr)<=0)
         {
             printf("\nInvalid address/ Address not supported");
-            printf("%s", ip_addr);
-            printf("\n");
             exit(1);
         }
 
