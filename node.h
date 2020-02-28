@@ -145,6 +145,7 @@ public:
          printf("NODE: in handle packet\n");
          char* buffer = new char[10000];
          read( sock_send , buffer, 10000);
+         printf(buffer);
 //
 //        char** args = new char*[1000];
 //        char* token = strtok(buffer, "?");
