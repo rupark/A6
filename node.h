@@ -123,7 +123,7 @@ public:
          String* serial = new String("1?-1?0?127.0.0.1?8080");
 
          printf("NODE: Message send = %s",serial->c_str());
-         send(sock_send , serial, sizeof(serial) , 0 );
+         send(sock_send , serial->cstr_, sizeof(serial->cstr_) , 0 );
          printf("NODE: message sent");
          // close socket
          close(sock_send);
