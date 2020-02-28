@@ -14,7 +14,7 @@ testClient.o:
 	g++ --std=c++11 -c client.cpp -o testClient.o
 
 testServer.o:
-	g++ --std=c++11 -c test.cpp -o testServer.o
+	g++ --std=c++11 -c server.cpp -o testServer.o
 
 build: client server client2
 
