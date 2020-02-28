@@ -108,7 +108,6 @@ public:
             handle_packet();
 
             close(sock_listen);
-            //close(sock_send);
         }
 
     }
@@ -208,23 +207,25 @@ public:
                     cout << addresses[i]->cstr_ << endl;
                     Directory *d = new Directory(0, i, this->nodes, this->ports, this->addresses);
 
-                    this->sock_send = init_client();
-
-                    if ((sock_send = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
-                        printf("\n Socket creation error \n");
-                    }
-
-                    // connect socket
-                    struct sockaddr_in our_sockaddr;
-
-                    our_sockaddr = create_sockaddr(this->addresses[i], this->port);
-
-                    if (connect(sock_send, (struct sockaddr *)&our_sockaddr, sizeof(our_sockaddr)) < 0) {
-                        printf("\nConnection Failed \n");
-
-                    }
+//                    this->sock_send = init_client();
+//
+//                    if ((sock_send = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
+//                        printf("\n Socket creation error \n");
+//                    }
+//
+//                    // connect socket
+//                    struct sockaddr_in our_sockaddr;
+//
+//                    our_sockaddr = create_sockaddr(this->addresses[i], this->port);
+//
+//                    if (connect(sock_send, (struct sockaddr *)&our_sockaddr, sizeof(our_sockaddr)) < 0) {
+//                        printf("\nConnection Failed \n");
+//
+//                    }
 
                     send(sock_send, d->serialize()->cstr_, 10000, 0);
+
+                    //close(sock_send);
                     //send_data(d);
 
                     cout << d->serialize()->cstr_ << endl;
