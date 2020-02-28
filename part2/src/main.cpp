@@ -1,8 +1,6 @@
 #include <stdio.h>
 #include <iostream>
 #include "serial.h"
-#include "node.h"
-#include "server.h"
 
 using namespace std;
 
