@@ -68,7 +68,7 @@ public:
         address.sin_family = AF_INET;
         address.sin_port = htons(this->port);
 
-        if(inet_pton(AF_INET,this->ip_addr, &address.sin_addr) > 0) {
+        if(inet_pton(AF_INET,this->ip_addr->c_str(), &address.sin_addr) > 0) {
             printf("SERVER: ERROR INET");
             exit(EXIT_FAILURE);
         }
