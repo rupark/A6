@@ -59,8 +59,15 @@ public:
 
         printf("setsockopt\n");
         // Forcefully attaching socket to the port 8080
-        if (setsockopt(sock_listen, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT,
-                       &opt, sizeof(opt)))
+        if (setsockopt(sock_listen, SOL_SOCKET, SO_REUSEADDR,
+                       &opt, sizeof(opt)) < 0)
+        {
+            perror("setsockopt");
+            exit(EXIT_FAILURE);
+        }
+
+        if (setsockopt(sock_listen, SOL_SOCKET, SO_REUSEPORT,
+                       &opt, sizeof(opt)) < 0)
         {
             perror("setsockopt");
             exit(EXIT_FAILURE);
