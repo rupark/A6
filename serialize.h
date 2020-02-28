@@ -114,6 +114,7 @@ public:
     }
 
     Register(char* buffer) {
+        printf("here");
         char** args = new char*[1000];
         char *token = strtok(buffer,"?");
         int i = 0;
