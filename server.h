@@ -108,6 +108,7 @@ public:
         }
         printf("reading\n");
 
+        handle_packet();
 
         for (size_t i =1; i < this->nodes; i++) {
             Directory* d = new Directory(0, i, this->nodes, this->ports, this->addresses);
@@ -119,7 +120,7 @@ public:
 //        send(sock_send , hello, strlen(hello) , 0 );
 //        cout << "did node get" << endl;
 
-        //handle_packet();
+
     }
 
     ~Server() {

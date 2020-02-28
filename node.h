@@ -121,10 +121,10 @@ public:
          send(sock_send , serial->cstr_, 10000, 0 );
          printf("NODE: message sent");
 
-         handle_packet();
-//         char buffer[1024] = {0};
-//         int valread = read( sock_send , buffer, 1024);
-//         printf("%s\n",buffer );
+         //handle_packet();
+         char buffer[1024] = {0};
+         int valread = read( sock_send , buffer, 1024);
+         printf("%s\n",buffer );
 
          printf("got message");
 
