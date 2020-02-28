@@ -228,9 +228,7 @@ public:
                     if ((sock_send_array[i - 1] = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
                         printf("\n Socket creation error \n");
                     }
-                    struct sockaddr_in our_sockaddr;
-                    our_sockaddr = create_sockaddr(this->ip_addr, this->port);
-                    if (connect(sock_send_array[i - 1], (struct sockaddr *) &our_sockaddr, sizeof(our_sockaddr)) < 0) {
+                    if (connect(sock_send_array[i - 1], (struct sockaddr *) &s[i-1], sizeof(s[i-1])) < 0) {
                         printf("\nConnection Failed \n");
                     }
                     send(sock_send_array[i - 1], d->serialize()->cstr_, 10000, 0);
