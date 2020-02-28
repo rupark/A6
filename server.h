@@ -222,6 +222,8 @@ public:
             {
                 Status *a = new Status(buffer);
                 cout << a->msg_->cstr_ << endl;
+                Ack* ack = new Ack(0, a->sender_);
+                send(sock_send, ack->serialize()->cstr_, 10000, 0);
             }
                 break;
             case 4:
