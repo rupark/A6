@@ -18,7 +18,7 @@ int main(int argc, char const *argv[])
 //    add[0] = new String("127.0.0.1");
 //
     cout << "Creating Server" << endl;
-    Server* s1 = new Server(new String("127.0.0.2"), 8080);
+    Server* s1 = new Server(new String("127.0.0.5"), 8080);
     cout << "Server Made" << endl;
 
 //    cout << "Creating Node" << endl;
