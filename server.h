@@ -153,27 +153,27 @@ public:
 
     void send_data(Message m) {
 
-        // create socket
-        if ((sock_send = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
-            printf("\n Socket creation error \n");
-
-        }
-
-        // connect socket
-        struct sockaddr_in our_sockaddr;
-
-        our_sockaddr = create_sockaddr(this->ip_addr, this->port);
-
-        if (connect(sock_send, (struct sockaddr *) &our_sockaddr, sizeof(our_sockaddr)) < 0) {
-            printf("\nConnection Failed \n");
-        }
-
-        // send data
-        String *serial = m.serialize();
-        send(sock_send, serial, sizeof(serial), 0);
-
-        // close socket
-        //close(sock_send);
+//        // create socket
+//        if ((sock_send = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
+//            printf("\n Socket creation error \n");
+//
+//        }
+//
+//        // connect socket
+//        struct sockaddr_in our_sockaddr;
+//
+//        our_sockaddr = create_sockaddr(this->ip_addr, this->port);
+//
+//        if (connect(sock_send, (struct sockaddr *) &our_sockaddr, sizeof(our_sockaddr)) < 0) {
+//            printf("\nConnection Failed \n");
+//        }
+//
+//        // send data
+//        String *serial = m.serialize();
+//        send(sock_send, serial, sizeof(serial), 0);
+//
+//        // close socket
+//        //close(sock_send);
 
     }
 
