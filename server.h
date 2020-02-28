@@ -204,6 +204,7 @@ public:
         char** args = new char*[1000];
         int i = 0;
 
+        printf("%s", buffer);
         while (buffer != NULL)
         {
             buffer = strtok (NULL, "?");
