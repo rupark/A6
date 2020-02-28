@@ -213,8 +213,10 @@ public:
 //            i++;
 //        }
 
+        char* msg_kind = buffer[0];
+
         // check message kind
-        switch (atoi(buffer[0])) {
+        switch (atoi(msg_kind)) {
             case 1:
                 cout << "SERVER: handling register message";
                 //Add new ip and port to list
@@ -226,7 +228,7 @@ public:
 
                 break;
             case 3: //status
-                cout << args[3] << endl;
+                //cout << args[3] << endl;
                 break;
             case 4:
                 // TODO because server does not receive Directory messages
