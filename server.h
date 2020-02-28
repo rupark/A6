@@ -195,10 +195,10 @@ public:
 
         char* msg_kind;
         *msg_kind = buffer[0];
-        cout << msg_kind << endl;
+        //cout << buffer << endl;
 
         // check message kind
-        switch (atoi(msg_kind)) {
+        switch (3) {
             case 1:
                 cout << "SERVER: handling register message" << endl;
                 //Add new ip and port to list
@@ -220,6 +220,7 @@ public:
                 cout << "Ack recieved" << endl;
                 break;
             case 3: //status
+                cout << "stats" << endl;
                 handle_status(*new Status(buffer));
                 //Ack* ack = new Ack(0, a->sender_);
                 //send(sock_send, ack->serialize()->cstr_, 10000, 0);
