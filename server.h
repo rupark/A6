@@ -175,7 +175,7 @@ public:
         send(sock_send, serial, sizeof(serial), 0);
 
         // close socket
-        close(sock_send);
+        //close(sock_send);
 
     }
 
