@@ -167,13 +167,13 @@ public:
         struct sockaddr_in our_sockaddr;
 
         // if message does not have a sockaddr, build one.
-        if (m.kind_ == MsgKind::Register) {
+        //if (m.kind_ == MsgKind::Register) {
             our_sockaddr = create_sockaddr(this->ip_addr, this->port);
-        } else {
-            String *ip = addresses[m.target_];
-            size_t port = ports[m.target_];
-            our_sockaddr = create_sockaddr(ip, port);
-        }
+//        } else {
+//            String *ip = addresses[m.target_];
+//            size_t port = ports[m.target_];
+//            our_sockaddr = create_sockaddr(ip, port);
+//        }
 
         if (connect(sock_send, (struct sockaddr *) &our_sockaddr, sizeof(our_sockaddr)) < 0) {
             printf("\nConnection Failed \n");
@@ -219,6 +219,7 @@ public:
                 for (size_t i = 1; i < this->nodes; i++) {
                     cout << addresses[i]->cstr_ << endl;
                     Directory *d = new Directory(0, i, this->nodes, this->ports, this->addresses);
+                    our_sockaddr = create_sockaddr(this->ip_addr, this->port);
                     if (connect(sock_send_array[i - 1], (struct sockaddr *) &our_sockaddr, sizeof(our_sockaddr)) < 0) {
                         printf("\nConnection Failed \n");
 
