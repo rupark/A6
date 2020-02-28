@@ -171,8 +171,6 @@ public:
         }
 
 
-
-
         if (connect(sock_send, (struct sockaddr *)&our_sockaddr, sizeof(our_sockaddr)) < 0) {
             printf("\nConnection Failed \n");
 
