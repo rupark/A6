@@ -89,7 +89,7 @@ public:
         // Convert IPv4 and IPv6 addresses from text to binary form
         if (inet_pton(AF_INET, ip_address->cstr_, &our_sockaddr.sin_addr) <= 0) {
             printf("\nInvalid address/ Address not supported");
-            return(-1);
+            exit(1);
         }
 
         return our_sockaddr;
@@ -101,7 +101,7 @@ public:
         // create socket
         if ((sock_send = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
             printf("\n Socket creation error \n");
-            return(-1);
+            exit(1);
         }
 
         // connect socket
@@ -111,7 +111,7 @@ public:
 
         if (connect(sock_send, (struct sockaddr *) &our_sockaddr, sizeof(our_sockaddr)) < 0) {
             printf("\nConnection Failed \n");
-            return(-1);
+            exit(1);
         }
 
         String *serial;
@@ -141,12 +141,12 @@ public:
     }
 
     //Handles Ack
-    void handle_ack(Ack a) {
+    void handle_ack(Ack *a) {
 
     }
 
     //Handles Status; prints the Status' message
-    void handle_status(Status s) {
+    void handle_status(Status *s) {
         printf(s.msg_->cstr_);
     }
 
@@ -160,7 +160,7 @@ public:
         switch (atoi(msg_kind)) {
             case 1: //Register
                 //ERROR: Cannot Register with a Node
-                return(-1);
+                exit(1);
                 break;
             case 2: //Ack
                 printf("Ack recieved in NODE");
