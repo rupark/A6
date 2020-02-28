@@ -46,9 +46,9 @@ public:
         this->sock_send = init_client();
         printf("NODE: done creating sock_send...");
         printf("NODE: sending reg");
-        this->send_reg();
+        //this->send_reg();
         //printf("NODE: DONE!");
-        this->sock_send = init_client();
+        //this->sock_send = init_client();
         printf("sending status");
         this->send_status();
          printf("done sending");
