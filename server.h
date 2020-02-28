@@ -157,15 +157,15 @@ public:
             exit(EXIT_FAILURE);
         }
 
-        if(inet_pton(AF_INET,"127.0.0.6", &address.sin_addr) <= 0) {
-            printf("SERVER: ERROR INET");
-            exit(EXIT_FAILURE);
-        }
-
         //type of socket created
         address.sin_family = AF_INET;
         address.sin_addr.s_addr = INADDR_ANY;
         address.sin_port = htons( port );
+
+        if(inet_pton(AF_INET,"127.0.0.3", &address.sin_addr) <= 0) {
+            printf("SERVER: ERROR INET");
+            exit(EXIT_FAILURE);
+        }
 
         //bind the socket to localhost port 8888
         if (bind(master_socket, (struct sockaddr *)&address, sizeof(address))<0)
