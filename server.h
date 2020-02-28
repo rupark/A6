@@ -99,6 +99,14 @@ public:
             exit(EXIT_FAILURE);
         }
 
+    for (size_t j = 0; j < this->nodes; j++) {
+        cout << "SERVER: " << endl;
+        printf("%s\n",this->addresses[j]->c_str());
+
+//        cout << "NODE: ";
+//        printf("%s\n",n1->addresses[j]->c_str());
+    }
+
         printf("Accepting\n");
         if ((sock_send = accept(sock_listen, (struct sockaddr *)&address,
                                  (socklen_t*)&addrlen))<0)
