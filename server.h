@@ -218,9 +218,16 @@ public:
         // check message kind
         switch (atoi(msg_kind)) {
             case 1:
-                cout << "SERVER: handling register message";
+                cout << "SERVER: handling register message" << endl;
                 //Add new ip and port to list
                 handle_register(*new Register(buffer));
+
+                cout << "address:";
+                cout << addresses[1] << endl;
+
+                cout << "nodes: ";
+                cout << nodes << endl;
+
                 //send out new directory to all nodes
                 //send_dir_all_clients();
                 break;
