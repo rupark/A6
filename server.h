@@ -202,18 +202,16 @@ public:
         read( sock_send , buffer, 10000);
 
         char** args = new char*[1000];
+        char* token = strtok(buffer, "?");
         int i = 0;
 
-        printf("%s", buffer);
-        while (buffer != NULL)
+        while (token != NULL)
         {
-            buffer = strtok (NULL, "?");
-            args[i] = buffer;
+            args[i] = token;
+            token = strtok (NULL, "?");
             printf("TOKENS: %s\n", args[i]);
             i++;
         }
-
-
 
         switch (atoi(args[0])) {
             case 1:
