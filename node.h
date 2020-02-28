@@ -112,12 +112,12 @@ public:
          }
 
          // send data
-         String* serial = m.serialize();
+         //String* serial = m.serialize();
 
-         //String* serial = new String("1?-1?0?127.0.0.1?8080");
+         String* serial = new String("1?-1?0?127.0.0.1?8080");
 
          //printf("NODE: Message send = %s",serial->cstr_);
-         send(sock_send , serial->cstr_, 2048 , 0 );
+         send(sock_send , serial->cstr_, 10000, 0 );
          printf("NODE: message sent");
          // close socket
          close(sock_send);
