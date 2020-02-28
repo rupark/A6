@@ -127,56 +127,49 @@ public:
             client_socket[i] = 0;
         }
 
-        //create a master socket
-        if( (master_socket = socket(AF_INET , SOCK_STREAM , 0)) == 0)
+        //Creating socket file descriptor
+        if ((master_socket = socket(AF_INET, SOCK_STREAM, 0)) == 0)
         {
             perror("socket failed");
             exit(EXIT_FAILURE);
         }
 
-        //set master socket to allow multiple connections ,
-        //this is just a good habit, it will work without this
-//        if( setsockopt(master_socket, SOL_SOCKET, SO_REUSEADDR, (char *)&opt,
-//                       sizeof(opt)) < 0 )
-//        {
-//            perror("setsockopt");
-//            exit(EXIT_FAILURE);
-//        }
-
+        printf("setsockopt\n");
+        // Forcefully attaching socket to the port 8080
         if (setsockopt(master_socket, SOL_SOCKET, SO_REUSEADDR,
-                       (char *)&opt, sizeof(opt)) < 0)
+                       &opt, sizeof(opt)) < 0)
         {
             perror("setsockopt");
             exit(EXIT_FAILURE);
         }
 
         if (setsockopt(master_socket, SOL_SOCKET, SO_REUSEPORT,
-                       (char *)&opt, sizeof(opt)) < 0)
+                       &opt, sizeof(opt)) < 0)
         {
             perror("setsockopt");
             exit(EXIT_FAILURE);
         }
 
-        //type of socket created
         address.sin_family = AF_INET;
-        address.sin_addr.s_addr = INADDR_ANY;
-        address.sin_port = htons( port );
+        address.sin_port = htons(this->port);
 
         if(inet_pton(AF_INET,"127.0.0.3", &address.sin_addr) <= 0) {
             printf("SERVER: ERROR INET");
             exit(EXIT_FAILURE);
         }
 
-        //bind the socket to localhost port 8888
+        printf("Binding server socket:");
+        printf("%s\n", this->ip_addr->cstr_);
+        // Forcefully attaching socket to the port 8080
         if (bind(master_socket, (struct sockaddr *)&address, sizeof(address))<0)
         {
-            perror("bind failed");
+            int e = errno;
+            printf("EXITING %d", e);
             exit(EXIT_FAILURE);
+            perror("binding");
         }
 
-        printf("Listener on port %d \n", port);
-
-        //try to specify maximum of 3 pending connections for the master socket
+        printf("Listening\n");
         if (listen(master_socket, 3) < 0)
         {
             perror("listen");
