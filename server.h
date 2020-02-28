@@ -106,6 +106,7 @@ public:
             }
 
             sock_send_array[sock_pos] = sock_send;
+            sock_pos++;
 
             printf("reading\n");
 
@@ -223,7 +224,6 @@ public:
                     our_sockaddr = create_sockaddr(this->ip_addr, this->port);
                     if (connect(sock_send_array[i - 1], (struct sockaddr *) &our_sockaddr, sizeof(our_sockaddr)) < 0) {
                         printf("\nConnection Failed \n");
-
                     }
                     send(sock_send_array[i - 1], d->serialize()->cstr_, 10000, 0);
                     //send_data(d);
