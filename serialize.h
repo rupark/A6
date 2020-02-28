@@ -142,7 +142,7 @@ public:
         s->c(str);
         snprintf(str, sizeof str, "%zu?", port);
         s->c(str);
-        snprintf(str, sizeof str, "%s", this->address->c_str());
+        snprintf(str, sizeof str, "%s", this->address->cstr_);
         s->c(str);
         return s->get();
     }
