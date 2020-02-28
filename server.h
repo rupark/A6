@@ -225,8 +225,9 @@ public:
                     cout << addresses[i]->cstr_ << endl;
                     Directory *d = new Directory(0, i, this->nodes, this->ports, this->addresses);
 
+                    int addrlen = sizeof(s[i-1]);
                     if ((sock_send = accept(sock_send_array[i-1], (struct sockaddr *) &s[i-1],
-                                            (socklen_t * ) & sizeof(s[i-1]))) < 0) {
+                                            (socklen_t * ) &addrlen)) < 0) {
                         perror("accept");
                         exit(EXIT_FAILURE);
                     }
