@@ -44,7 +44,7 @@ public:
         struct sockaddr_in address;
         int opt = 1;
         int addrlen = sizeof(address);
-        char buffer[10000] = {0};
+
 
 
         printf("Starting server\n");
@@ -107,10 +107,9 @@ public:
             exit(EXIT_FAILURE);
         }
         printf("reading");
-        valread = read( sock_send , buffer, 100000);
+       // valread = read( sock_send , buffer, 100000);
         //printf("%s\n",buffer);
-        char* vals = buffer;
-        handle_packet(vals);
+        handle_packet();
     }
 
     ~Server() {
@@ -194,12 +193,13 @@ public:
         this->addresses[this->nodes] = r.address;
         this->ports[this->nodes] = r.port;
         nodes++;
-
-        cout << addresses[1]->cstr_ << endl;
+        //cout << addresses[1]->cstr_ << endl;
     }
 
-    void handle_packet(char* buf) {
-        printf("handle packet - here");
+    void handle_packet() {
+        char buffer[10*000] = {0};
+        read( sock_send , buffer, 100*000);
+
         char** args = new char*[1000];
         int i = 0;
         while (buf != NULL)
@@ -208,8 +208,10 @@ public:
             args[i] = buf;
             i++;
         }
+
         switch (atoi(args[0])) {
             case 1:
+                cout << "SERVER: handling register message";
                 //Add new ip and port to list
                 handle_register(*new Register(buf));
                 //send out new directory to all nodes
