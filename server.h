@@ -10,6 +10,7 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <errno.h>
 
 #include <string.h>
 
@@ -78,7 +79,8 @@ public:
         // Forcefully attaching socket to the port 8080
         if (bind(sock_listen, (struct sockaddr *)&address, sizeof(address))<0)
         {
-            printf("%s", "EXITING");
+            int e = errno;
+            printf("EXITING %d", e);
             exit(EXIT_FAILURE);
             perror("binding");
         }
