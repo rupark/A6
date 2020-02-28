@@ -42,13 +42,13 @@ public:
 
          // needs to be listening for connections
          //this->sock_listen = init_server(this->ip_addr->cstr_, this->port);
-        printf("NODE: creating sock_send");
+        printf("NODE: creating sock_send\n");
         this->sock_send = init_client();
-        printf("NODE: done creating sock_send...");
-        printf("NODE: sending reg");
+        printf("NODE: done creating sock_send...\n");
+        printf("NODE: sending reg\n");
         this->send_reg();
-        printf("NODE: DONE!");
-        this->send_status();
+        printf("NODE: DONE!\n");
+//        this->send_status();
     }
 
     ~Node() {
@@ -113,10 +113,11 @@ public:
 
          // send data
          String* serial = m.serialize();
+         printf("NODE: Message Sending = %s", serial->c_str());
          send(sock_send , serial, sizeof(serial) , 0 );
 
          // close socket
-         close(sock_send);
+         //close(sock_send);
 
      }
 
