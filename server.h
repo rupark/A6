@@ -154,7 +154,7 @@ public:
             perror("bind failed");
             exit(EXIT_FAILURE);
         }
-        printf("Listener on port %d \n", PORT);
+        printf("Listener on port %d \n", port);
 
         //try to specify maximum of 3 pending connections for the master socket
         if (listen(master_socket, 3) < 0)
@@ -167,7 +167,7 @@ public:
         addrlen = sizeof(address);
         puts("Waiting for connections ...");
 
-        while(TRUE)
+        while(1)
         {
             //clear the socket set
             FD_ZERO(&readfds);
