@@ -44,7 +44,8 @@ public:
         struct sockaddr_in address;
         int opt = 1;
         int addrlen = sizeof(address);
-        char buffer[10000] = {0};
+        //char buffer[10000] = {0};
+        char* buffer = new char[1000];
 
 
         printf("Starting server\n");
