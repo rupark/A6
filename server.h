@@ -197,14 +197,14 @@ public:
     }
 
     void handle_packet() {
-        char buffer[10*000] = {0};
-        read( sock_send , buffer, 100*000);
+        char buffer[10000] = {0};
+        read( sock_send , buffer, 10000);
 
         char** args = new char*[1000];
         int i = 0;
-        while (buf != NULL)
+        while (buffer != NULL)
         {
-            buf = strtok (NULL, " ");
+            buffer = strtok (NULL, " ");
             args[i] = buf;
             i++;
         }
@@ -213,7 +213,7 @@ public:
             case 1:
                 cout << "SERVER: handling register message";
                 //Add new ip and port to list
-                handle_register(*new Register(buf));
+                handle_register(*new Register(buffer));
                 //send out new directory to all nodes
                 send_dir_all_clients();
                 break;
