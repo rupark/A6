@@ -122,7 +122,7 @@ public:
          printf("NODE: message sent");
 
          char buffer[1024] = {0};
-         valread = read( sock , buffer, 1024);
+         int valread = read( sock_send , buffer, 1024);
          printf("%s\n",buffer );
 
          printf("got message");
