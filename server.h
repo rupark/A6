@@ -228,7 +228,7 @@ public:
 //                        printf("\nConnection Failed \n");
 //                    }
 
-                    sock_send = sock_send_array[i];
+                    sock_send = sock_send_array[i-1];
 
                     send(sock_send, d->serialize()->cstr_, 10000, 0);
 
