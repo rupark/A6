@@ -213,13 +213,11 @@ public:
                 //Add new ip and port to list
                 handle_register(*new Register(buffer));
 
-                cout << "address:";
-                cout << addresses[1]->cstr_ << endl;
-
                 cout << "nodes: ";
                 cout << nodes << endl;
 
                 for (size_t i = 1; i < this->nodes; i++) {
+                    cout << addresses[i]->cstr_ << endl;
                     Directory *d = new Directory(0, i, this->nodes, this->ports, this->addresses);
                     send(sock_send_array[i - 1], d->serialize()->cstr_, 10000, 0);
                     cout << "sent directory to node" << endl;
