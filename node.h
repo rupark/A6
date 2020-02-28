@@ -61,11 +61,11 @@ public:
     }
 
     void send_reg() {
-       send_data(*new Register(-1, 0, this->port, this->ip_addr));
+       send_data(new Register(-1, 0, this->port, this->ip_addr));
     }
 
     void send_status() {
-        send_data(*new Status(-1, 0, new String("hi")));
+        send_data(new Status(-1, 0, new String("hi")));
     }
 
     sockaddr_in create_sockaddr(String* ip_address, size_t port) {
@@ -85,7 +85,7 @@ public:
         return our_sockaddr;
      }
 
-     void send_data(Message m) {
+     void send_data(Message* m) {
 
          // create socket
          if ((sock_send = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
@@ -112,7 +112,7 @@ public:
          }
 
          // send data
-         String* serial = dynamic_cast<Register>(m).serialize();
+         String* serial = dynamic_cast<Register*>(m)->serialize();
 
          //String* serial = new String("1?-1?0?127.0.0.1?8080");
 

@@ -131,7 +131,6 @@ public:
     }
 
     String* serialize() {
-        cout << "here" << endl;
         StrBuff* s = new StrBuff();
         char str[256] = ""; /* In fact not necessary as snprintf() adds the
                          0-terminator. */
