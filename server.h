@@ -193,12 +193,12 @@ public:
         char *buffer = new char[10000];
         read(sock_send, buffer, 10000);
 
-        char* msg_kind;
+        char* msg_kind = char[10000];
         *msg_kind = buffer[0];
         //cout << buffer << endl;
 
         // check message kind
-        switch (3) {
+        switch (atoi(msg_kind)) {
             case 1:
                 cout << "SERVER: handling register message" << endl;
                 //Add new ip and port to list
@@ -222,8 +222,8 @@ public:
             case 3: //status
                 cout << "stats" << endl;
                 handle_status(*new Status(buffer));
-                //Ack* ack = new Ack(0, a->sender_);
-                //send(sock_send, ack->serialize()->cstr_, 10000, 0);
+                Ack* ack = new Ack(0, a->sender_);
+                send(sock_send, ack->serialize()->cstr_, 10000, 0);
                 break;
             case 4:
                 // TODO because server does not receive Directory messages
