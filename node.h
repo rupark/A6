@@ -118,14 +118,14 @@ public:
          String* serial;
 
          // send data
-         //if (m->kind_ MsgKind::Register) {
-         //    serial = dynamic_cast<Register *>(m)->serialize();
-         //} else if (m->kind_ == MsgKind::Status) {
-         serial = dynamic_cast<Status *>(m)->serialize();
-         cout << serial->cstr_ << endl;
-         //} else {
-         //    serial = dynamic_cast<Ack *>(m)->serialize();
-         //}
+         if (m->kind_ MsgKind::Register) {
+             serial = dynamic_cast<Register *>(m)->serialize();
+         } else if (m->kind_ == MsgKind::Status) {
+            serial = dynamic_cast<Status *>(m)->serialize();
+            cout << serial->cstr_ << endl;
+         } else {
+             serial = dynamic_cast<Ack *>(m)->serialize();
+         }
 
          //String* serial = new String("1?-1?0?127.0.0.1?8080");
 
