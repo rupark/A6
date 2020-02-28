@@ -106,7 +106,7 @@ public:
             perror("accept");
             exit(EXIT_FAILURE);
         }
-        printf("reading");
+        printf("reading\n");
        // valread = read( sock_send , buffer, 100000);
         //printf("%s\n",buffer);
         handle_packet();
@@ -197,10 +197,10 @@ public:
     }
 
     void handle_packet() {
-        printf("SERVER: in handle packet");
-//        char* buffer = new char[10000];
-//        read( sock_send , buffer, 10000);
-//
+        printf("SERVER: in handle packet\n");
+        char* buffer = new char[10000];
+        read( sock_send , buffer, 10000);
+
 //        char** args = new char*[1000];
 //        int i = 0;
 //
