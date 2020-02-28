@@ -20,7 +20,7 @@ int main(int argc, char const *argv[])
 
     Ack* a = new Ack(0, 1);
     cout << a->serialize()->cstr_ << endl;
-    Ack* g = new Register(a->serialize()->cstr_);
+    Ack* g = new Ack(a->serialize()->cstr_);
     cout << g->serialize()->cstr_ << endl;
 
     size_t* ports = new size_t[3];
