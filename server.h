@@ -227,7 +227,7 @@ public:
                     //if (m.kind_ == MsgKind::Register) {
                     our_sockaddr = create_sockaddr(this->ip_addr, this->port);
                     int addrlen = sizeof(our_sockaddr);
-                    if ((sock_send = accept(sock_send_array[i-1], (struct sockaddr *) &address,
+                    if ((sock_send = accept(sock_send_array[i-1], (struct sockaddr *) &our_sockaddr,
                                             (socklen_t * ) & addrlen)) < 0) {
                         perror("accept");
                         exit(EXIT_FAILURE);
