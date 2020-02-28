@@ -56,6 +56,7 @@ public:
         this->send_status();
         printf("done sending");
         cout << nodes << endl;
+        close(sock_send);
          while (1) {
              handle_packet();
          }
@@ -133,7 +134,7 @@ public:
             serial = dynamic_cast<Ack *>(m)->serialize();
         }
 
-        //String* serial = new String("1?-1?0?127.0.0.1?8080");
+        //String* serial = new String("1?-1?0?f.0.0.1?8080");
 
         //printf("NODE: Message send = %s",serial->cstr_);
         send(sock_send, serial->cstr_, 10000, 0);
