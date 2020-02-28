@@ -26,13 +26,13 @@ int main(int argc, char const *argv[])
 //    cout << "Node Created" << endl;
 //
     // DUMPING TABLES
-    for (size_t j = 0; j < s1->nodes; j++) {
-        cout << "SERVER: " << endl;
-        printf("%s\n",s1->addresses[j]->c_str());
+//    for (size_t j = 0; j < s1->nodes; j++) {
+//        cout << "SERVER: " << endl;
+//        printf("%s\n",s1->addresses[j]->c_str());
 
 //        cout << "NODE: ";
 //        printf("%s\n",n1->addresses[j]->c_str());
-    }
+//    }
 
 
 
