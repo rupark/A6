@@ -193,7 +193,8 @@ public:
         char *buffer = new char[10000];
         read(sock_send, buffer, 10000);
 
-        char *msg_kind = &buffer[0];
+        char* msg_kind;
+        *msg_kind = buffer[0];
 
         // check message kind
         switch (atoi(msg_kind)) {
@@ -222,8 +223,8 @@ public:
             {
                 Status *a = new Status(buffer);
                 cout << a->msg_->cstr_ << endl;
-                Ack* ack = new Ack(0, a->sender_);
-                send(sock_send, ack->serialize()->cstr_, 10000, 0);
+                //Ack* ack = new Ack(0, a->sender_);
+                //send(sock_send, ack->serialize()->cstr_, 10000, 0);
             }
                 break;
             case 4:
