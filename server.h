@@ -80,7 +80,6 @@ public:
         if (bind(sock_listen, (struct sockaddr *)&address, sizeof(address))<0)
         {
             int e = errno;
-            perror(e);
             printf("EXITING %d", e);
             exit(EXIT_FAILURE);
             perror("binding");
