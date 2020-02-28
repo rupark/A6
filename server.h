@@ -193,31 +193,32 @@ public:
         this->addresses[this->nodes] = r.address;
         this->ports[this->nodes] = r.port;
         nodes++;
-        //cout << addresses[1]->cstr_ << endl;
+        cout << "SERVER: register handled." << endl;
     }
 
     void handle_packet() {
         printf("SERVER: in handle packet\n");
         char* buffer = new char[10000];
         read( sock_send , buffer, 10000);
+//
+//        char** args = new char*[1000];
+//        char* token = strtok(buffer, "?");
+//        int i = 0;
+//
+//        while (token != NULL)
+//        {
+//            args[i] = token;
+//            token = strtok (NULL, "?");
+//            printf("TOKENS: %s\n", args[i]);
+//            i++;
+//        }
 
-        char** args = new char*[1000];
-        char* token = strtok(buffer, "?");
-        int i = 0;
-
-        while (token != NULL)
-        {
-            args[i] = token;
-            token = strtok (NULL, "?");
-            printf("TOKENS: %s\n", args[i]);
-            i++;
-        }
-
-        switch (atoi(args[0])) {
+        // check message kind
+        switch (atoi(buffer[0])) {
             case 1:
                 cout << "SERVER: handling register message";
                 //Add new ip and port to list
-                //handle_register(*new Register(buffer));
+                handle_register(*new Register(buffer));
                 //send out new directory to all nodes
                 //send_dir_all_clients();
                 break;
