@@ -230,7 +230,7 @@ public:
 //                        printf("\nConnection Failed \n");
 //                    }
 
-                    close(sock_send);
+                    //close(sock_send);
 
                     this->sock_send = init_client();
 
