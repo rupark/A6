@@ -213,7 +213,7 @@ public:
 //            i++;
 //        }
 
-        char* msg_kind = buffer[0];
+        char* msg_kind = &buffer[0];
 
         // check message kind
         switch (atoi(msg_kind)) {
