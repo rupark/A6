@@ -166,7 +166,7 @@ public:
             {
                 printf("Ack recieved in NODE");
                 Ack *a = new Ack(buffer);
-                handle_status(a);
+                handle_ack(a);
                 break;
             }
             case 3: //Status
