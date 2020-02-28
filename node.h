@@ -160,8 +160,8 @@ public:
          char* buffer = new char[10000];
          read( sock_send , buffer, 10000);
 
-        char* msg_kind;
-        *msg_kind = buffer[0];
+         char* msg_kind = new char[10000];
+         *msg_kind = buffer[0];
 
         switch (atoi(msg_kind)) {
             case 1:
