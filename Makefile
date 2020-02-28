@@ -1,11 +1,11 @@
-build: serialize.h server.h node.h test.o
-	g++ --std=c++11 node.h serialize.h server.h node.h test.o 
+#build: serialize.h server.h node.h test.o
+#	g++ --std=c++11 node.h serialize.h server.h node.h test.o
 
 build_client: serialize.h server.h node.h testClient.o
-	g++ --std=c++11 node.h serialize.h server.h node.h testClient.o 
+	g++ --std=c++11 node.h serialize.h server.h testClient.o node.h -o client
 
 build_server: serialize.h server.h node.h testServer.o
-	g++ --std=c++11 node.h serialize.h server.h node.h testServer.o
+	g++ --std=c++11 node.h serialize.h server.h testServer.o node.h -o server
 
 test.o:
 	g++ --std=c++11 -c tests.cpp -o test.o
@@ -20,4 +20,4 @@ run:
 	./server && ./client
 
 clean:
-	rm a.out test.o *.h.gch *.o client server
+	rm *.out *.o *.h.gch client server
