@@ -220,8 +220,7 @@ public:
                 cout << "Ack recieved" << endl;
                 break;
             case 3: //status
-                Status *a = new Status(buffer);
-                cout << a->msg_->cstr_ << endl;
+                handle_status(*new Status(buffer));
                 //Ack* ack = new Ack(0, a->sender_);
                 //send(sock_send, ack->serialize()->cstr_, 10000, 0);
                 break;
@@ -229,6 +228,10 @@ public:
                 // TODO because server does not receive Directory messages
                 break;
         }
+    }
+
+    void handle_status(Status s) {
+        cout << s->msg_->cstr_ << endl;
     }
 
     /**
