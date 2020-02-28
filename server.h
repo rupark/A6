@@ -44,7 +44,7 @@ public:
         struct sockaddr_in address;
         int opt = 1;
         int addrlen = sizeof(address);
-        char buffer[1024] = {0};
+        char buffer[10000] = {0};
 
 
         printf("Starting server\n");
@@ -107,7 +107,7 @@ public:
             exit(EXIT_FAILURE);
         }
         printf("reading");
-        valread = read( sock_send , buffer, 2048);
+        valread = read( sock_send , buffer, 100000);
         printf("%s\n",buffer);
     }
 
