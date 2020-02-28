@@ -55,6 +55,9 @@ public:
         this->send_status();
          printf("done sending");
          cout << nodes << endl;
+         while (1) {
+             handle_packet();
+         }
          //close(sock_send);
     }
 
