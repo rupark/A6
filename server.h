@@ -44,7 +44,7 @@ public:
         struct sockaddr_in address;
         int opt = 1;
         int addrlen = sizeof(address);
-        char buffer[4096] = {0};
+        char buffer[1024] = {0};
 
 
         printf("Starting server\n");
@@ -57,7 +57,7 @@ public:
             exit(EXIT_FAILURE);
         }
 
-        printf("SERVER: setsockopt\n");
+        printf("setsockopt\n");
         // Forcefully attaching socket to the port 8080
         if (setsockopt(sock_listen, SOL_SOCKET, SO_REUSEADDR,
                        &opt, sizeof(opt)) < 0)
@@ -81,25 +81,25 @@ public:
             exit(EXIT_FAILURE);
         }
 
-        printf("SERVER: Binding server socket:");
+        printf("Binding server socket:");
         printf("%s\n", this->ip_addr->cstr_);
         // Forcefully attaching socket to the port 8080
         if (bind(sock_listen, (struct sockaddr *)&address, sizeof(address))<0)
         {
             int e = errno;
-            printf("SERVER: EXITING %d", e);
+            printf("EXITING %d", e);
             exit(EXIT_FAILURE);
             perror("binding");
         }
 
-        printf("SERVER: Listening\n");
+        printf("Listening\n");
         if (listen(sock_listen, 3) < 0)
         {
             perror("listen");
             exit(EXIT_FAILURE);
         }
 
-        printf("SERVER: Accepting\n");
+        printf("Accepting\n");
         if ((sock_send = accept(sock_listen, (struct sockaddr *)&address,
                                  (socklen_t*)&addrlen))<0)
         {
@@ -107,8 +107,8 @@ public:
             exit(EXIT_FAILURE);
         }
         printf("SERVER: reading\n");
-        valread = read( sock_send , buffer, 4096);
-        printf("SERVER: MESSAGE RECEIVED: %s\n",buffer);
+        valread = read( sock_send , buffer, 1024);
+        printf("MESSAGE RECEIVED: %s\n",buffer);
     }
 
     ~Server() {

@@ -42,13 +42,13 @@ public:
 
          // needs to be listening for connections
          //this->sock_listen = init_server(this->ip_addr->cstr_, this->port);
-        printf("NODE: creating sock_send\n");
+        printf("NODE: creating sock_send");
         this->sock_send = init_client();
-        printf("NODE: done creating sock_send...\n");
-        printf("NODE: sending reg\n");
+        printf("NODE: done creating sock_send...");
+        printf("NODE: sending reg");
         this->send_reg();
-        printf("NODE: DONE!\n");
-//        this->send_status();
+        printf("NODE: DONE!");
+        this->send_status();
     }
 
     ~Node() {
@@ -99,10 +99,10 @@ public:
          //if (m.kind_ == MsgKind::Register) {
              our_sockaddr = create_sockaddr(this->server_addr, this->server_port);
          //} else {
-             //String *ip = addresses[m.target_];
-             //size_t port = ports[m.target_];
-             //our_sockaddr = create_sockaddr(ip, port);
-         //}
+         //    String *ip = addresses[m.target_];
+        //     size_t port = ports[m.target_];
+        //     our_sockaddr = create_sockaddr(ip, port);
+        // }
 
          // bind?
 
@@ -113,12 +113,10 @@ public:
 
          // send data
          String* serial = m.serialize();
-         printf("NODE: about to print serial message");
-         printf("NODE: Message Sending = %s\n", serial->c_str());
          send(sock_send , serial, sizeof(serial) , 0 );
 
          // close socket
-         //close(sock_send);
+         close(sock_send);
 
      }
 
