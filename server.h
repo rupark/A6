@@ -107,7 +107,7 @@ public:
             exit(EXIT_FAILURE);
         }
         printf("reading");
-        valread = read( sock_send , buffer, 1024);
+        valread = read( sock_send , buffer, 2048);
         printf("%s\n",buffer);
     }
 
