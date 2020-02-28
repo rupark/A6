@@ -208,8 +208,11 @@ public:
         {
             buffer = strtok (NULL, "?");
             args[i] = buffer;
+            printf("TOKENS: %s\n", args[i]);
             i++;
         }
+
+
 
         switch (atoi(args[0])) {
             case 1:
