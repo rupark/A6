@@ -47,9 +47,10 @@ public:
         printf("NODE: done creating sock_send...");
         printf("NODE: sending reg");
         this->send_reg();
-        printf("NODE: DONE!");
-
-//        this->send_status();
+        //printf("NODE: DONE!");
+        printf("sending status");
+        this->send_status();
+         printf("done sending");
     }
 
     ~Node() {
@@ -113,7 +114,13 @@ public:
          }
 
          // send data
-         String* serial = dynamic_cast<Register*>(m)->serialize();
+         if (m->kind_ == MsgKind::Register) {
+             String *serial = dynamic_cast<Register *>(m)->serialize();
+         } else if (m->kind_ == MsgKind::Status) {
+             String *serial = dynamic_cast<Status *>(m)->serialize();
+         } else {
+             String *serial = dynamic_cast<Ack *>(m)->serialize();
+         }
 
          //String* serial = new String("1?-1?0?127.0.0.1?8080");
 
@@ -123,7 +130,7 @@ public:
 
          handle_packet();
 
-         cout << this->nodes << endl;
+//         cout << this->nodes << endl;
 //         char buffer[1024] = {0};
 //         int valread = read( sock_send , buffer, 1024);
 //         printf("%s\n",buffer );
@@ -131,7 +138,7 @@ public:
          printf("got message");
 
          // close socket
-         close(sock_send);
+         //close(sock_send);
 
      }
 

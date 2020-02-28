@@ -19,22 +19,22 @@
 class Server {
 public:
     size_t nodes;
-    size_t * ports;  // owned
-    String ** addresses;  // owned; strings owned
+    size_t *ports;  // owned
+    String **addresses;  // owned; strings owned
 
     //Personal Stuff
-    String* ip_addr;
+    String *ip_addr;
     int port;
 
     //socket stuff
     int sock_listen;
     int sock_send;
 
-    Server(String* ip_addr, size_t port) {
+    Server(String *ip_addr, size_t port) {
         this->ip_addr = ip_addr;
         this->port = port;
 
-        this->addresses = new String*[1000];
+        this->addresses = new String *[1000];
         addresses[0] = this->ip_addr;
         this->ports = new size_t[1000];
         ports[0] = this->port;
@@ -46,13 +46,11 @@ public:
         int addrlen = sizeof(address);
 
 
-
         printf("Starting server\n");
         printf("Creating Socket\n");
 
         // Creating socket file descriptor
-        if ((sock_listen = socket(AF_INET, SOCK_STREAM, 0)) == 0)
-        {
+        if ((sock_listen = socket(AF_INET, SOCK_STREAM, 0)) == 0) {
             perror("socket failed");
             exit(EXIT_FAILURE);
         }
@@ -60,15 +58,13 @@ public:
         printf("setsockopt\n");
         // Forcefully attaching socket to the port 8080
         if (setsockopt(sock_listen, SOL_SOCKET, SO_REUSEADDR,
-                       &opt, sizeof(opt)) < 0)
-        {
+                       &opt, sizeof(opt)) < 0) {
             perror("setsockopt");
             exit(EXIT_FAILURE);
         }
 
         if (setsockopt(sock_listen, SOL_SOCKET, SO_REUSEPORT,
-                       &opt, sizeof(opt)) < 0)
-        {
+                       &opt, sizeof(opt)) < 0) {
             perror("setsockopt");
             exit(EXIT_FAILURE);
         }
@@ -76,7 +72,7 @@ public:
         address.sin_family = AF_INET;
         address.sin_port = htons(this->port);
 
-        if(inet_pton(AF_INET,"127.0.0.7", &address.sin_addr) <= 0) {
+        if (inet_pton(AF_INET, "127.0.0.7", &address.sin_addr) <= 0) {
             printf("SERVER: ERROR INET");
             exit(EXIT_FAILURE);
         }
@@ -84,42 +80,30 @@ public:
         printf("Binding server socket:");
         printf("%s\n", this->ip_addr->cstr_);
         // Forcefully attaching socket to the port 8080
-        if (bind(sock_listen, (struct sockaddr *)&address, sizeof(address))<0)
-        {
+        if (bind(sock_listen, (struct sockaddr *) &address, sizeof(address)) < 0) {
             int e = errno;
             printf("EXITING %d", e);
             exit(EXIT_FAILURE);
             perror("binding");
         }
 
-        printf("Listening\n");
-        if (listen(sock_listen, 3) < 0)
-        {
-            perror("listen");
-            exit(EXIT_FAILURE);
+        while (1) {
+            printf("Listening\n");
+            if (listen(sock_listen, 3) < 0) {
+                perror("listen");
+                exit(EXIT_FAILURE);
+            }
+
+            printf("Accepting\n");
+            if ((sock_send = accept(sock_listen, (struct sockaddr *) &address,
+                                    (socklen_t * ) & addrlen)) < 0) {
+                perror("accept");
+                exit(EXIT_FAILURE);
+            }
+            printf("reading\n");
+
+            handle_packet();
         }
-
-        printf("Accepting\n");
-        if ((sock_send = accept(sock_listen, (struct sockaddr *)&address,
-                                 (socklen_t*)&addrlen))<0)
-        {
-            perror("accept");
-            exit(EXIT_FAILURE);
-        }
-        printf("reading\n");
-
-        handle_packet();
-
-        for (size_t i =1; i < this->nodes; i++) {
-            Directory* d = new Directory(0, i, this->nodes, this->ports, this->addresses);
-            send(sock_send , d->serialize()->cstr_, 10000 , 0 );
-            cout << "sent directory to node" << endl;
-        }
-
-//        char *hello = "Hello from server";
-//        send(sock_send , hello, strlen(hello) , 0 );
-//        cout << "did node get" << endl;
-
 
     }
 
@@ -132,15 +116,14 @@ public:
     }
 
 
-    sockaddr_in create_sockaddr(String* ip_address, size_t port) {
+    sockaddr_in create_sockaddr(String *ip_address, size_t port) {
         struct sockaddr_in our_sockaddr;
 
         our_sockaddr.sin_family = AF_INET;
         our_sockaddr.sin_port = htons(port);
 
         // Convert IPv4 and IPv6 addresses from text to binary form
-        if(inet_pton(AF_INET, ip_address->cstr_, &our_sockaddr.sin_addr)<=0)
-        {
+        if (inet_pton(AF_INET, ip_address->cstr_, &our_sockaddr.sin_addr) <= 0) {
             printf("\nInvalid address/ Address not supported");
             printf("%s", ip_address->cstr_);
             printf("\n");
@@ -152,10 +135,10 @@ public:
 
     void send_dir_all_clients() {
 
-        Directory* d;
+        Directory *d;
 
         // spot 0 is for this server.
-        for (size_t i =1; i < this->nodes; i++) {
+        for (size_t i = 1; i < this->nodes; i++) {
             d = new Directory(0, i, this->nodes, this->ports, this->addresses);
             send_data(*d);
         }
@@ -182,14 +165,14 @@ public:
             our_sockaddr = create_sockaddr(ip, port);
         }
 
-        if (connect(sock_send, (struct sockaddr *)&our_sockaddr, sizeof(our_sockaddr)) < 0) {
+        if (connect(sock_send, (struct sockaddr *) &our_sockaddr, sizeof(our_sockaddr)) < 0) {
             printf("\nConnection Failed \n");
 
         }
 
         // send data
-        String* serial = m.serialize();
-        send(sock_send , serial, sizeof(serial) , 0 );
+        String *serial = m.serialize();
+        send(sock_send, serial, sizeof(serial), 0);
 
         // close socket
         close(sock_send);
@@ -206,22 +189,10 @@ public:
 
     void handle_packet() {
         printf("SERVER: in handle packet\n");
-        char* buffer = new char[10000];
-        read( sock_send , buffer, 10000);
-//
-//        char** args = new char*[1000];
-//        char* token = strtok(buffer, "?");
-//        int i = 0;
-//
-//        while (token != NULL)
-//        {
-//            args[i] = token;
-//            token = strtok (NULL, "?");
-//            printf("TOKENS: %s\n", args[i]);
-//            i++;
-//        }
+        char *buffer = new char[10000];
+        read(sock_send, buffer, 10000);
 
-        char* msg_kind = &buffer[0];
+        char *msg_kind = &buffer[0];
 
         // check message kind
         switch (atoi(msg_kind)) {
@@ -236,14 +207,17 @@ public:
                 cout << "nodes: ";
                 cout << nodes << endl;
 
-                //send out new directory to all nodes
-                //send_dir_all_clients();
+                for (size_t i = 1; i < this->nodes; i++) {
+                    Directory *d = new Directory(0, i, this->nodes, this->ports, this->addresses);
+                    send(sock_send, d->serialize()->cstr_, 10000, 0);
+                    cout << "sent directory to node" << endl;
+                }
                 break;
-            case 2:
+            case 2: // ack
 
                 break;
             case 3: //status
-                //cout << args[3] << endl;
+                cout << args[3] << endl;
                 break;
             case 4:
                 // TODO because server does not receive Directory messages
@@ -254,22 +228,20 @@ public:
     /**
      * Initializes a socket
      */
-    int init(const char* ip_address, int port) {
+    int init(const char *ip_address, int port) {
         struct sockaddr_in server_addr;
         char buffer[1024] = {0};
         printf("In client\n");
         printf("creating socket\n");
         int tmpSocket = 0;
-        if ((tmpSocket = socket(AF_INET, SOCK_STREAM, 0)) < 0)
-        {
+        if ((tmpSocket = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
             printf("\n Socket creation error \n");
             return -1;
         }
         server_addr.sin_family = AF_INET;
         server_addr.sin_port = htons(port);
         // Convert IPv4 and IPv6 addresses from text to binary form
-        if(inet_pton(AF_INET, ip_address, &server_addr.sin_addr)<=0)
-        {
+        if (inet_pton(AF_INET, ip_address, &server_addr.sin_addr) <= 0) {
             printf("\nInvalid address/ Address not supported");
             printf("%s", ip_addr);
             printf("\n");
