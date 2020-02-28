@@ -42,8 +42,6 @@ public:
         this->ports = new size_t[1000];
         ports[0] = this->port;
         this->nodes = 1;
-        this->sock_send_array = new int[10000];
-        //this->s = new sockaddr_in[10000];
 
         int valread;
         struct sockaddr_in address;
@@ -104,9 +102,6 @@ public:
                 perror("accept");
                 exit(EXIT_FAILURE);
             }
-
-            sock_send_array[sock_pos] = sock_send;
-            sock_pos++;
 
             printf("reading\n");
 
@@ -220,19 +215,6 @@ public:
                 for (size_t i = 1; i < this->nodes; i++) {
                     cout << addresses[i]->cstr_ << endl;
                     Directory *d = new Directory(0, i, this->nodes, this->ports, this->addresses);
-
-                    struct sockaddr_in our_sockaddr;
-
-                    // if message does not have a sockaddr, build one.
-                    //if (m.kind_ == MsgKind::Register) {
-                    our_sockaddr = create_sockaddr(this->ip_addr, this->port);
-                    int addrlen = sizeof(our_sockaddr);
-                    if ((sock_send = accept(sock_send_array[i-1], (struct sockaddr *) &our_sockaddr,
-                                            (socklen_t * ) & addrlen)) < 0) {
-                        perror("accept");
-                        exit(EXIT_FAILURE);
-                    }
-                    //cout << d->serialize()->cstr_ << endl;
                     send(sock_send, d->serialize()->cstr_, 10000, 0);
                     //send_data(d);
                     cout << d->serialize()->cstr_ << endl;
