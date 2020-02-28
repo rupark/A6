@@ -48,6 +48,7 @@ public:
         printf("NODE: sending reg");
         this->send_reg();
         printf("NODE: DONE!");
+
 //        this->send_status();
     }
 
@@ -119,6 +120,13 @@ public:
          //printf("NODE: Message send = %s",serial->cstr_);
          send(sock_send , serial->cstr_, 10000, 0 );
          printf("NODE: message sent");
+
+         char buffer[1024] = {0};
+         valread = read( sock , buffer, 1024);
+         printf("%s\n",buffer );
+
+         printf("got message");
+
          // close socket
          close(sock_send);
 
