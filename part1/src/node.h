@@ -186,7 +186,7 @@ public:
         }
     }
 
-    //Used for initializing sock_send when sending to nodes
+    //Used for initializing sock_send
     int init_client() {
         struct sockaddr_in server_addr;
         //char buffer[1024] = {0};
