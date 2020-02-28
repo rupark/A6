@@ -30,6 +30,9 @@ public:
     int sock_listen;
     int sock_send;
 
+    int* sock_send_array;
+    int sock_pos = 0;
+
     Server(String *ip_addr, size_t port) {
         this->ip_addr = ip_addr;
         this->port = port;
@@ -39,6 +42,7 @@ public:
         this->ports = new size_t[1000];
         ports[0] = this->port;
         this->nodes = 1;
+        this->sock_send_array = new int[10000];
 
         int valread;
         struct sockaddr_in address;
@@ -101,12 +105,14 @@ public:
                 exit(EXIT_FAILURE);
             }
 
+            sock_send_array[sock_pos] = sock_send;
+
             printf("reading\n");
 
             handle_packet();
 
             close(sock_listen);
-            close(sock_send);
+            //close(sock_send);
         }
 
     }
@@ -215,9 +221,10 @@ public:
 
                 for (size_t i = 1; i < this->nodes; i++) {
                     Directory *d = new Directory(0, i, this->nodes, this->ports, this->addresses);
-                    send(sock_send, d->serialize()->cstr_, 10000, 0);
+                    send(sock_send_array[i - 1], d->serialize()->cstr_, 10000, 0);
                     cout << "sent directory to node" << endl;
                 }
+
                 break;
             case 2: // ack
                 cout << "Ack recieved" << endl;
