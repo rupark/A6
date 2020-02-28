@@ -13,10 +13,11 @@
 
 class Node {
 public:
-    //FIRST NODE IS THE SERVER
+    //Network Directory
+    //Index 0 is the Server info
     size_t nodes;
-    size_t *ports;  // owned
-    String **addresses;  // owned; strings owned
+    size_t *ports;
+    String **addresses;
 
     //Personal Stuff
     String *server_addr;
@@ -24,15 +25,14 @@ public:
     size_t port;
     size_t server_port;
 
+    //Sockets
     int sock_listen;
     int sock_send;
 
     Node(String *server_addr, size_t server_port, String *ip_addr, size_t port) {
         close(sock_send);
-
         this->server_addr = server_addr;
         this->server_port = server_port;
-
         this->ip_addr = ip_addr;
         this->port = port;
 
@@ -42,20 +42,18 @@ public:
         ports[0] = this->server_port;
         this->nodes = 1;
 
-        printf("NODE: creating sock_send");
         this->sock_send = init_client();
-        printf("NODE: done creating sock_send...");
-        printf("NODE: sending reg");
+
+        printf("NODE: registering with server");
         this->send_reg();
-        printf("NODE: DONE!");
+        printf("NODE: done registering");
         close(sock_send);
 
         this->sock_send = init_client();
-        printf("sending status");
+        printf("NODE: sending status");
         this->send_status();
-        printf("done sending");
-        cout << nodes << endl;
-        //close(sock_send);
+        printf("NODE: done sending status");
+
          while (1) {
              handle_packet();
          }
@@ -70,14 +68,18 @@ public:
         close(sock_send);
     }
 
+    //Registers with Server
+    //From index is -1 since we do not yet know this Node's index
     void send_reg() {
         send_data(new Register(-1, 0, this->port, this->ip_addr));
     }
 
+    //Sends status to Server
     void send_status() {
-        send_data(new Status(-1, 0, new String("hi")));
+        send_data(new Status(-1, 0, new String("Hello from Node!")));
     }
 
+    //Creates a sockaddr
     sockaddr_in create_sockaddr(String *ip_address, size_t port) {
         struct sockaddr_in our_sockaddr;
 
@@ -87,18 +89,19 @@ public:
         // Convert IPv4 and IPv6 addresses from text to binary form
         if (inet_pton(AF_INET, ip_address->cstr_, &our_sockaddr.sin_addr) <= 0) {
             printf("\nInvalid address/ Address not supported");
-            printf("%s", ip_address->cstr_);
-            printf("\n");
+            return(-1);
         }
 
         return our_sockaddr;
     }
 
+    //Sends the given Message
     void send_data(Message *m) {
 
         // create socket
         if ((sock_send = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
             printf("\n Socket creation error \n");
+            return(-1);
         }
 
         // connect socket
@@ -108,12 +111,13 @@ public:
 
         if (connect(sock_send, (struct sockaddr *) &our_sockaddr, sizeof(our_sockaddr)) < 0) {
             printf("\nConnection Failed \n");
-
+            return(-1);
         }
 
         String *serial;
 
-        // send data
+        // Serializing the Message
+        // Nodes cannot send Directory Messages
         if (m->kind_ == MsgKind::Register) {
             serial = dynamic_cast<Register *>(m)->serialize();
         } else if (m->kind_ == MsgKind::Status) {
@@ -124,50 +128,60 @@ public:
         }
 
         send(sock_send, serial->cstr_, 10000, 0);
-        printf("NODE: message sent");
 
         handle_packet();
 
-        printf("got message");
-
     }
 
+    //Handles Directory; Sets this Node's fields to the given Directory's
     void handle_directory(Directory *d) {
         this->ports = d->ports;
         this->addresses = d->addresses;
         this->nodes = d->nodes;
-        printf("Directory handled");
     }
 
-    // Receives type Message -- has MsgKind field
+    //Handles Ack
+    void handle_ack(Ack a) {
+
+    }
+
+    //Handles Status; prints the Status' message
+    void handle_status(Status s) {
+        printf(s.msg_->cstr_);
+    }
+
+    //Reads incoming data and parses it into a Message and responds appropriately
     void handle_packet() {
         char *buffer = new char[10000];
         read(sock_send, buffer, 10000);
-        //cout << buffer << endl;
-
         char *msg_kind = new char[10000];
         *msg_kind = buffer[0];
 
         switch (atoi(msg_kind)) {
-            case 1:
-                //TODO error?
+            case 1: //Register
+                //ERROR: Cannot Register with a Node
+                return(-1);
                 break;
-            case 2: //ack
-                cout << "Ack recieved in NODE";
+            case 2: //Ack
+                printf("Ack recieved in NODE");
+                Ack *a = new Ack(buffer);
+                handle_status(a);
                 break;
-            case 3:
-
+            case 3: //Status
+                printf("Directory recieved in NODE");
+                Status *s = new Status(buffer);
+                handle_status(s);
                 break;
             case 4: //Directory
-                printf("Found directory");
+                printf("Directory recieved in NODE");
                 Directory *d = new Directory(buffer);
                 handle_directory(d);
                 break;
         }
     }
 
+    //Used for initializing sock_send when sending to nodes
     int init_client() {
-
         struct sockaddr_in server_addr;
         //char buffer[1024] = {0};
         printf("In client\n");

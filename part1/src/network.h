@@ -6,22 +6,18 @@
 #pragma once
 
 #include "server.h"
-#include "list.h"
+#include "node.h"
 
+//A Network consists of a Server and a list of Node
 class Network {
 public:
-    // server
     Server *server;
+    Node** nodes;
 
-    // Cannot be a network without Registration Server.
-    Network(Server *server) {
+    Network(Server *server, Node** n, int num) {
         this->server = server;
+        for (int i = 0; i < num; i++) {
+            this->nodes[i] = n[i];
+        }
     }
-
-    // Adds Node to network
-    add_node(Node* node) {
-        // adds to to network
-        node->send_reg();
-    }
-
 };

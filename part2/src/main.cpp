@@ -6,6 +6,8 @@ using namespace std;
 
 int main(int argc, char const *argv[])
 {
+    //TESTING SERIALIZATION AND DESERIALIZATION
+
     Status* s = new Status(0, 1, new String("hello"));
     Status* f = new Status(s->serialize()->cstr_);
     if (strcmp(s->serialize()->cstr_,f->serialize()->cstr_) == 0) {

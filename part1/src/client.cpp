@@ -12,4 +12,7 @@ int main(int argc, char const *argv[])
     Node* n1 = new Node(new String("127.0.0.7"),8080, new String("127.0.0.1"), 8080);
     cout << "Node Created" << endl;
 
+    cout << "Creating Node" << endl;
+    Node* n2 = new Node(new String("127.0.0.7"),8080, new String("127.0.0.2"), 8080);
+    cout << "Node Created" << endl;
 }
