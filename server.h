@@ -197,36 +197,38 @@ public:
     }
 
     void handle_packet() {
-        char* buffer = new char[10000];
-        read( sock_send , buffer, 10000);
-
-        char** args = new char*[1000];
-        int i = 0;
-        while (buffer != NULL)
-        {
-            buffer = strtok (NULL, " ");
-            args[i] = buffer;
-            i++;
-        }
-
-        switch (atoi(args[0])) {
-            case 1:
-                cout << "SERVER: handling register message";
-                //Add new ip and port to list
-                handle_register(*new Register(buffer));
-                //send out new directory to all nodes
-                send_dir_all_clients();
-                break;
-            case 2:
-
-                break;
-            case 3: //status
-                cout << args[3] << endl;
-                break;
-            case 4:
-                // TODO because server does not receive Directory messages
-                break;
-        }
+        printf("SERVER: in handle packet");
+//        char* buffer = new char[10000];
+//        read( sock_send , buffer, 10000);
+//
+//        char** args = new char*[1000];
+//        int i = 0;
+//
+//        while (buffer != NULL)
+//        {
+//            buffer = strtok (NULL, " ");
+//            args[i] = buffer;
+//            i++;
+//        }
+//
+//        switch (atoi(args[0])) {
+//            case 1:
+//                cout << "SERVER: handling register message";
+//                //Add new ip and port to list
+//                handle_register(*new Register(buffer));
+//                //send out new directory to all nodes
+//                send_dir_all_clients();
+//                break;
+//            case 2:
+//
+//                break;
+//            case 3: //status
+//                cout << args[3] << endl;
+//                break;
+//            case 4:
+//                // TODO because server does not receive Directory messages
+//                break;
+//        }
     }
 
     /**
