@@ -196,7 +196,7 @@ public:
 
         // check message kind
         switch (atoi(msg_kind)) {
-            case 1:
+            case 1: {
                 cout << "SERVER: handling register message" << endl;
                 //Add new ip and port to list
                 handle_register(*new Register(buffer));
@@ -212,13 +212,16 @@ public:
                     send(sock_send, d->serialize()->cstr_, 10000, 0);
                     cout << "sent directory to node" << endl;
                 }
+            }
                 break;
             case 2: // ack
 
                 break;
             case 3: //status
-                Status* a = new Status(buffer);
+            {
+                Status *a = new Status(buffer);
                 cout << a->msg_->cstr_ << endl;
+            }
                 break;
             case 4:
                 // TODO because server does not receive Directory messages
