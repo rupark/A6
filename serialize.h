@@ -91,7 +91,7 @@ public:
 
     String* serialize() {
         StrBuff* s = new StrBuff();
-        char str[256] = ""; /* In fact not necessary as snprintf() adds the
+        char str[10000] = ""; /* In fact not necessary as snprintf() adds the
                          0-terminator. */
         s->c("3?");
         snprintf(str, sizeof this->sender_, "%zu?", this->sender_);

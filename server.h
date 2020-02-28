@@ -194,7 +194,6 @@ public:
         read(sock_send, buffer, 10000);
 
         char *msg_kind = &buffer[0];
-        printf(msg_kind);
 
         // check message kind
         switch (atoi(msg_kind)) {
