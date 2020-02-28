@@ -118,7 +118,7 @@ public:
          String* serial;
 
          // send data
-         if (m->kind_ MsgKind::Register) {
+         if (m->kind_ == MsgKind::Register) {
              serial = dynamic_cast<Register *>(m)->serialize();
          } else if (m->kind_ == MsgKind::Status) {
             serial = dynamic_cast<Status *>(m)->serialize();
