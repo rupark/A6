@@ -6,7 +6,7 @@
 #include <sys/socket.h>
 #include <stdlib.h>
 #include <netinet/in.h>
-#include <string.h>
+#include "part1/src/string.h"
 #include <arpa/inet.h>
 #include <assert.h>
 #define PORT 8080

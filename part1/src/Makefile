@@ -17,10 +17,10 @@ testClient2.o:
 	g++ --std=c++11 -c client2.cpp -o testClient2.o
 
 testClient.o:
-	g++ --std=c++11 -c testClient.cpp -o testClient.o
+	g++ --std=c++11 -c client.cpp -o testClient.o
 
 testServer.o:
-	g++ --std=c++11 -c testServer.cpp -o testServer.o
+	g++ --std=c++11 -c test.cpp -o testServer.o
 
 build: client server client2
 

@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <iostream>
-#include "serialize.h"
-#include "node.h"
-#include "server.h"
+#include "../src/serialize.h"
+#include "../src/node.h"
+#include "../src/server.h"
 
 using namespace std;
 

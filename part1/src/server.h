@@ -12,7 +12,7 @@
 #include <stdlib.h>
 #include <errno.h>
 
-#include <string.h>
+#include "string.h"
 
 #pragma once
 
@@ -213,24 +213,6 @@ public:
                     Directory *d = new Directory(0, i, this->nodes, this->ports, this->addresses);
                     cout << d->serialize()->cstr_ << endl;
 
-//                    close(sock_send);
-//
-//                    this->sock_send = init_client();
-//
-//                    if ((sock_send = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
-//                        printf("\n Socket creation error \n");
-//                    }
-//
-//                    // connect socket
-//                    struct sockaddr_in our_sockaddr;
-//
-//                    our_sockaddr = create_sockaddr(this->addresses[i], this->port);
-//
-//                    if (connect(sock_send, (struct sockaddr *)&our_sockaddr, sizeof(our_sockaddr)) < 0) {
-//                        printf("\nConnection Failed \n");
-//                    }
-
-                    //close(sock_send);
 
                     this->sock_send = init_client();
 
@@ -241,10 +223,6 @@ public:
                     sock_send = sock_send_array[0];
 
                     send(sock_send, d->serialize()->cstr_, 10000, 0);
-
-                    //close(sock_send);
-                    //send_data(d);
-
                 }
 
                 break;
