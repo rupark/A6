@@ -230,7 +230,15 @@ public:
 //                        printf("\nConnection Failed \n");
 //                    }
 
-                    sock_send = sock_send_array[i-1];
+                    close(sock_send);
+
+                    this->sock_send = init_client();
+
+                    if ((sock_send = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
+                        printf("\n Socket creation error \n");
+                    }
+
+                    sock_send = sock_send_array[0];
 
                     send(sock_send, d->serialize()->cstr_, 10000, 0);
 
