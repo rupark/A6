@@ -1,5 +1,4 @@
 #include "serialize.h"
-//#include "list.h"
 #include "string.h"
 #include <unistd.h>
 #include <stdio.h>
@@ -43,8 +42,6 @@ public:
         ports[0] = this->server_port;
         this->nodes = 1;
 
-        // needs to be listening for connections
-        //this->sock_listen = init_server(this->ip_addr->cstr_, this->port);
         printf("NODE: creating sock_send");
         this->sock_send = init_client();
         printf("NODE: done creating sock_send...");
@@ -107,16 +104,7 @@ public:
         // connect socket
         struct sockaddr_in our_sockaddr;
 
-        // if message does not have a sockaddr, build one.
-        //if (m.kind_ == MsgKind::Register) {
         our_sockaddr = create_sockaddr(this->server_addr, this->server_port);
-        //} else {
-        //    String *ip = addresses[m.target_];
-        //     size_t port = ports[m.target_];
-        //     our_sockaddr = create_sockaddr(ip, port);
-        // }
-
-        // bind?
 
         if (connect(sock_send, (struct sockaddr *) &our_sockaddr, sizeof(our_sockaddr)) < 0) {
             printf("\nConnection Failed \n");
@@ -135,23 +123,12 @@ public:
             serial = dynamic_cast<Ack *>(m)->serialize();
         }
 
-        //String* serial = new String("1?-1?0?f.0.0.1?8080");
-
-        //printf("NODE: Message send = %s",serial->cstr_);
         send(sock_send, serial->cstr_, 10000, 0);
         printf("NODE: message sent");
 
         handle_packet();
 
-//         cout << this->nodes << endl;
-//         char buffer[1024] = {0};
-//         int valread = read( sock_send , buffer, 1024);
-//         printf("%s\n",buffer );
-
         printf("got message");
-
-        // close socket
-        //close(sock_send);
 
     }
 
@@ -187,10 +164,6 @@ public:
                 handle_directory(d);
                 break;
         }
-    }
-
-    String *get_address() {
-        return this->ip_addr;
     }
 
     int init_client() {

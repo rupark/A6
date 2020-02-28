@@ -24,6 +24,4 @@ public:
         node->send_reg();
     }
 
-
-
 };

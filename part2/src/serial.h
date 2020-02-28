@@ -225,6 +225,4 @@ public:
         }
         return s->get();
     }
-
-
 };
