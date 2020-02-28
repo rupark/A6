@@ -112,13 +112,15 @@ public:
          }
 
          // send data
-         String* serial = m.serialize();
+ //        String* serial = m.serialize();
 
-         if (serial == nullptr) {
-             printf("NODE: NULL SERIAL");
-         } else {
-             printf("NODE: serial size = %d", serial->size());
-         }
+//         if (serial == nullptr) {
+//             printf("NODE: NULL SERIAL");
+//         } else {
+//             printf("NODE: serial size = %d", serial->size());
+//         }
+
+         String* serial = new String("Hello from Test!");
 
          printf("NODE: Message send = %s",serial->c_str());
          send(sock_send , serial, sizeof(serial) , 0 );
