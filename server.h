@@ -193,7 +193,7 @@ public:
         char *buffer = new char[10000];
         read(sock_send, buffer, 10000);
 
-        char* msg_kind = char[10000];
+        char* msg_kind = new char[10000];
         *msg_kind = buffer[0];
         //cout << buffer << endl;
 
@@ -222,8 +222,7 @@ public:
             case 3: //status
                 cout << "stats" << endl;
                 handle_status(*new Status(buffer));
-                Ack* ack = new Ack(0, a->sender_);
-                send(sock_send, ack->serialize()->cstr_, 10000, 0);
+
                 break;
             case 4:
                 // TODO because server does not receive Directory messages
@@ -233,6 +232,8 @@ public:
 
     void handle_status(Status s) {
         cout << s.msg_->cstr_ << endl;
+        Ack* ack = new Ack(0, s->sender_);
+        send(sock_send, ack->serialize()->cstr_, 10000, 0);
     }
 
     /**
