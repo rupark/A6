@@ -11,7 +11,7 @@ int main(int argc, char const *argv[])
     Status* s = new Status(0, 1, new String("hello"));
     cout << s->serialize()->cstr_ << endl;
 
-    Register* r = new Register(0, 1, new String("127.0.0.1"), 8080);
+    Register* r = new Register(0, 1, 8080, new String("127.0.0.1"));
     cout << r->serialize()->cstr_ << endl;
 
     Ack* a = new Ack(0, 1);
