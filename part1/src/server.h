@@ -187,7 +187,7 @@ public:
     }
 
     //Handles Ack
-    void handle_ack(Ack *a) {
+    void handle_ack(Ack a) {
 
     }
 
