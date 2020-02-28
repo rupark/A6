@@ -219,6 +219,10 @@ public:
                 for (size_t i = 1; i < this->nodes; i++) {
                     cout << addresses[i]->cstr_ << endl;
                     Directory *d = new Directory(0, i, this->nodes, this->ports, this->addresses);
+                    if (connect(sock_send_array[i - 1], (struct sockaddr *) &our_sockaddr, sizeof(our_sockaddr)) < 0) {
+                        printf("\nConnection Failed \n");
+
+                    }
                     send(sock_send_array[i - 1], d->serialize()->cstr_, 10000, 0);
                     cout << "sent directory to node" << endl;
                 }
