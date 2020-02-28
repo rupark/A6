@@ -107,8 +107,6 @@ public:
 
             sock_send_array[sock_pos] = sock_send;
             sock_pos++;
-            s[sockaddr_pos] = address;
-            sockaddr_pos++;
 
             printf("reading\n");
 
