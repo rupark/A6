@@ -112,7 +112,7 @@ public:
          }
 
          // send data
-         String* serial = m.serialize();
+         String* serial = dynamic_cast<Register>(m).serialize();
 
          //String* serial = new String("1?-1?0?127.0.0.1?8080");
 
