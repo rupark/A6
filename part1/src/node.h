@@ -54,9 +54,9 @@ public:
         this->send_status();
         printf("NODE: done sending status");
 
-         while (1) {
-             handle_packet();
-         }
+        while (1) {
+            handle_packet();
+        }
     }
 
     ~Node() {
@@ -147,7 +147,7 @@ public:
 
     //Handles Status; prints the Status' message
     void handle_status(Status *s) {
-        printf(s.msg_->cstr_);
+        printf(s->msg_->cstr_);
     }
 
     //Reads incoming data and parses it into a Message and responds appropriately
@@ -163,20 +163,26 @@ public:
                 exit(1);
                 break;
             case 2: //Ack
+            {
                 printf("Ack recieved in NODE");
                 Ack *a = new Ack(buffer);
                 handle_status(a);
                 break;
+            }
             case 3: //Status
+            {
                 printf("Directory recieved in NODE");
                 Status *s = new Status(buffer);
                 handle_status(s);
                 break;
+            }
             case 4: //Directory
+            {
                 printf("Directory recieved in NODE");
                 Directory *d = new Directory(buffer);
                 handle_directory(d);
                 break;
+            }
         }
     }
 
