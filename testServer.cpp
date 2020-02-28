@@ -9,16 +9,27 @@ using namespace std;
 int main(int argc, char const *argv[])
 {
     Status* s = new Status(0, 1, new String("hello"));
-    cout << s->serialize() << endl;
+    cout << s->serialize()->cstr_ << endl;
+
+    Register* r = new Register(0, 1, new String("127.0.0.1"), 8080);
+    cout << r->serialize()->cstr_ << endl;
+
+    Ack* a = new Ack(0, 1);
+    cout << a->serialize()->cstr_ << endl;
+
+    size_t* ports = new size_t[3];
+    ports[0] = 1;
+    ports[1] = 1;
+    ports[2] = 1;
+    String** add = new String*[3];
+    add[0] = new String("127.0.0.1");
+    add[1] = new String("127.0.0.1");
+    add[2] = new String("127.0.0.1");
+    Directory* d = new Directory(0, 1, 3, ports, add);
+    cout << d->serialize()->cstr_ << endl;
 
 
-//    size_t* ports = new size_t[3];
-//    ports[0] = 1;
-//    ports[1] = 1;
-//    ports[2] = 1;
-//    String** add = new String*[3];
-//    add[0] = new String("127.0.0.1");
-//
+
     cout << "Creating Server" << endl;
     Server* s1 = new Server(new String("127.0.0.5"), 8080);
     cout << "Server Made" << endl;
