@@ -120,7 +120,7 @@ public:
 //             printf("NODE: serial size = %d", serial->size());
 //         }
 
-         String* serial = new String("Hello from Test!");
+         String* serial = new String("1?-1?0?127.0.0.1?8080");
 
          printf("NODE: Message send = %s",serial->c_str());
          send(sock_send , serial, sizeof(serial) , 0 );
