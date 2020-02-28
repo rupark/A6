@@ -162,67 +162,6 @@ public:
 
     // Receives type Message -- has MsgKind field
     void handle_packet() {
-        int valread;
-        struct sockaddr_in address;
-        int opt = 1;
-        int addrlen = sizeof(address);
-
-        printf("Starting server\n");
-        printf("Creating Socket\n");
-
-        close(sock_listen);
-
-        // Creating socket file descriptor
-        if ((sock_listen = socket(AF_INET, SOCK_STREAM, 0)) == 0) {
-            perror("socket failed");
-            exit(EXIT_FAILURE);
-        }
-
-        printf("setsockopt\n");
-        // Forcefully attaching socket to the port 8080
-        if (setsockopt(sock_listen, SOL_SOCKET, SO_REUSEADDR,
-                       &opt, sizeof(opt)) < 0) {
-            perror("setsockopt");
-            exit(EXIT_FAILURE);
-        }
-
-        if (setsockopt(sock_listen, SOL_SOCKET, SO_REUSEPORT,
-                       &opt, sizeof(opt)) < 0) {
-            perror("setsockopt");
-            exit(EXIT_FAILURE);
-        }
-
-        address.sin_family = AF_INET;
-        address.sin_port = htons(this->port);
-
-        if (inet_pton(AF_INET, this->ip_addr->cstr_, &address.sin_addr) <= 0) {
-            printf("SERVER: ERROR INET");
-            exit(EXIT_FAILURE);
-        }
-
-        printf("Binding server socket:");
-        //printf("%s\n", this->ip_addr->cstr_);
-        // Forcefully attaching socket to the port 8080
-        if (bind(sock_listen, (struct sockaddr *) &address, sizeof(address)) < 0) {
-            int e = errno;
-            printf("EXITING %d", e);
-            exit(EXIT_FAILURE);
-            perror("binding");
-        }
-
-        printf("Listening\n");
-        if (listen(sock_listen, 3) < 0) {
-            perror("listen");
-            exit(EXIT_FAILURE);
-        }
-
-        printf("Accepting\n");
-        if ((sock_send = accept(sock_listen, (struct sockaddr *) &address,
-                                (socklen_t * ) & addrlen)) < 0) {
-            perror("accept");
-            exit(EXIT_FAILURE);
-        }
-
         printf("NODE: in handle packet\n");
         char *buffer = new char[10000];
         read(sock_send, buffer, 10000);
