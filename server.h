@@ -231,6 +231,7 @@ public:
                     if (connect(sock_send_array[i - 1], (struct sockaddr *) &s[i-1], sizeof(s[i-1])) < 0) {
                         printf("\nConnection Failed \n");
                     }
+                    cout << d->serialize()->cstr_ << endl;
                     send(sock_send_array[i - 1], d->serialize()->cstr_, 10000, 0);
                     //send_data(d);
                     cout << d->serialize()->cstr_ << endl;
