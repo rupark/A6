@@ -74,6 +74,7 @@ public:
     }
 
     Status(char* buffer) {
+        cout << "here" << endl;
         char** args = new char*[1000];
         char *token = strtok(buffer,"?");
         int i = 0;
