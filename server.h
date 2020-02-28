@@ -65,14 +65,13 @@ public:
             exit(EXIT_FAILURE);
         }
 
-//        if (setsockopt(sock_listen, SOL_SOCKET, SO_REUSEADDR , &opt, sizeof(opt))) {
-//            perror("setsockopt");
-//            exit(EXIT_FAILURE);
-//        }
-
         address.sin_family = AF_INET;
-        assert(inet_pton(AF_INET,"127.0.0.5", &address.sin_addr) > 0);
-        address.sin_port = htons(8080);
+        address.sin_port = htons(this->port);
+
+        if(inet_pton(AF_INET,this->ip_addr, &address.sin_addr) > 0) {
+            printf("SERVER: ERROR INET");
+            exit(EXIT_FAILURE);
+        }
 
         printf("Binding server socket:");
         printf("%s\n", this->ip_addr->cstr_);

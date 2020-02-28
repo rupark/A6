@@ -42,9 +42,12 @@ public:
 
          // needs to be listening for connections
          //this->sock_listen = init_server(this->ip_addr->cstr_, this->port);
-
+        printf("NODE: creating sock_send");
         this->sock_send = init_client();
+        printf("NODE: done creating sock_send...");
+        printf("NODE: sending reg");
         this->send_reg();
+        printf("NODE: DONE!");
     }
 
     ~Node() {
@@ -155,10 +158,10 @@ public:
          }
 
          server_addr.sin_family = AF_INET;
-         server_addr.sin_port = htons(8080);
+         server_addr.sin_port = htons(this->port);
 
          // Convert IPv4 and IPv6 addresses from text to binary form
-         if(inet_pton(AF_INET, "127.0.0.5", &server_addr.sin_addr)<=0)
+         if(inet_pton(AF_INET, this->ip_addr, &server_addr.sin_addr)<=0)
          {
              printf("\nInvalid address/ Address not supported");
              printf("%s", ip_addr);

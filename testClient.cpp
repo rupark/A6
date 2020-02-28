@@ -22,7 +22,7 @@ int main(int argc, char const *argv[])
 //    cout << "Server Made" << endl;
 
     cout << "Creating Node" << endl;
-    Node* n1 = new Node(new String("127.0.0.3"),8080, new String("127.0.0.1"), 8080);
+    Node* n1 = new Node(new String("127.0.0.2"),8080, new String("127.0.0.1"), 8080);
     cout << "Node Created" << endl;
 
 //    // DUMPING TABLES
